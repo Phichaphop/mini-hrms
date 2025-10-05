@@ -2,7 +2,11 @@
 // /controllers/PreferencesHandler.php
 // Handle user preference updates (language, theme color)
 
-session_start();
+// Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once __DIR__ . '/../config/db_config.php';
 require_once __DIR__ . '/../db/Database.php';
 
@@ -10,7 +14,7 @@ header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['success' => false, 'message' => 'Invalid request method']);
-    exit();
+    exit();ขข
 }
 
 if (!isset($_SESSION['user_id'])) {

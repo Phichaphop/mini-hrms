@@ -178,6 +178,22 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
+            // Position Level Master (NEW)
+            "CREATE TABLE IF NOT EXISTS `position_level_master` (
+                `level_id` INT AUTO_INCREMENT PRIMARY KEY,
+                `level_name` VARCHAR(100) NOT NULL,
+                `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+            
+            // Education Level Master (NEW)
+            "CREATE TABLE IF NOT EXISTS `education_level_master` (
+                `education_id` INT AUTO_INCREMENT PRIMARY KEY,
+                `education_name` VARCHAR(100) NOT NULL,
+                `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+            
             // Service Category Master
             "CREATE TABLE IF NOT EXISTS `service_category_master` (
                 `category_id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -517,6 +533,28 @@ class Database {
             ('Operator')
         ");
         
+        // Seed Position Level Master (NEW)
+        $this->conn->exec("INSERT INTO `position_level_master` (`level_name`) VALUES
+            ('C-Level'),
+            ('Senior Management'),
+            ('Middle Management'),
+            ('Junior Management'),
+            ('Staff Level'),
+            ('Entry Level')
+        ");
+        
+        // Seed Education Level Master (NEW)
+        $this->conn->exec("INSERT INTO `education_level_master` (`education_name`) VALUES
+            ('Doctoral Degree (Ph.D.)'),
+            ('Master Degree'),
+            ('Bachelor Degree'),
+            ('Diploma / Associate Degree'),
+            ('High School / Vocational'),
+            ('Secondary School'),
+            ('Primary School'),
+            ('Other')
+        ");
+        
         // Seed Service Category Master
         $this->conn->exec("INSERT INTO `service_category_master` (`category_name_th`, `category_name_en`, `category_name_my`) VALUES
             ('แบบฟอร์มการลา', 'Leave Form', 'ခွင့်လွှာ'),
@@ -563,13 +601,13 @@ class Database {
         
         $this->conn->exec("INSERT INTO `employees` 
             (`employee_id`, `prefix_id`, `full_name_th`, `full_name_en`, `function_id`, `division_id`, `department_id`, `section_id`, 
-            `position_id`, `sex`, `nationality`, `birthday`, `age`, `education_level`, `phone_no`, `date_of_hire`, `year_of_service`, 
+            `position_id`, `position_level`, `sex`, `nationality`, `birthday`, `age`, `education_level`, `phone_no`, `date_of_hire`, `year_of_service`, 
             `status`, `username`, `password`, `role_id`, `theme_color_preference`, `language_preference`) VALUES
-            ('000001', 1, 'สมชาย ใจดี', 'Somchai Jaidee', 1, 1, 1, 1, 1, 'Male', 'Thai', '1985-03-15', 39, 'Bachelor Degree', '081-111-1111', '2010-01-15', 15, 'Active', 'admin', '$adminPassword', 1, '#3B82F6', 'en'),
-            ('000002', 2, 'สมหญิง รักงาน', 'Somying Rakngaan', 4, 1, 5, 5, 2, 'Female', 'Thai', '1990-07-20', 34, 'Master Degree', '081-222-2222', '2015-06-01', 9, 'Active', 'officer1', '$officerPassword', 2, '#10B981', 'th'),
-            ('000003', 1, 'จอห์น สมิธ', 'John Smith', 2, 2, 2, 2, 3, 'Male', 'American', '1992-11-10', 32, 'Bachelor Degree', '081-333-3333', '2018-03-20', 6, 'Active', 'emp001', '$employeePassword', 3, '#F59E0B', 'en'),
-            ('000004', 3, 'มารี ต้น', 'Mary Htun', 2, 2, 3, 3, 4, 'Female', 'Myanmar', '1995-05-25', 29, 'Diploma', '081-444-4444', '2020-08-15', 4, 'Active', 'emp002', '$employeePassword', 3, '#EF4444', 'my'),
-            ('000005', 1, 'ประยุทธ์ ขยัน', 'Prayut Kayan', 3, 3, 4, 4, 5, 'Male', 'Thai', '1988-12-05', 36, 'High School', '081-555-5555', '2012-10-01', 12, 'Active', 'emp003', '$employeePassword', 3, '#8B5CF6', 'th')
+            ('000001', 1, 'สมชาย ใจดี', 'Somchai Jaidee', 1, 1, 1, 1, 1, 'C-Level', 'Male', 'Thai', '1985-03-15', 39, 'Master Degree', '081-111-1111', '2010-01-15', 15, 'Active', 'admin', '$adminPassword', 1, '#3B82F6', 'en'),
+            ('000002', 2, 'สมหญิง รักงาน', 'Somying Rakngaan', 4, 1, 5, 5, 2, 'Middle Management', 'Female', 'Thai', '1990-07-20', 34, 'Master Degree', '081-222-2222', '2015-06-01', 9, 'Active', 'officer1', '$officerPassword', 2, '#10B981', 'th'),
+            ('000003', 1, 'จอห์น สมิธ', 'John Smith', 2, 2, 2, 2, 3, 'Staff Level', 'Male', 'American', '1992-11-10', 32, 'Bachelor Degree', '081-333-3333', '2018-03-20', 6, 'Active', 'emp001', '$employeePassword', 3, '#F59E0B', 'en'),
+            ('000004', 3, 'มารี ต้น', 'Mary Htun', 2, 2, 3, 3, 4, 'Staff Level', 'Female', 'Myanmar', '1995-05-25', 29, 'Diploma / Associate Degree', '081-444-4444', '2020-08-15', 4, 'Active', 'emp002', '$employeePassword', 3, '#EF4444', 'my'),
+            ('000005', 1, 'ประยุทธ์ ขยัน', 'Prayut Kayan', 3, 3, 4, 4, 5, 'Entry Level', 'Male', 'Thai', '1988-12-05', 36, 'High School / Vocational', '081-555-5555', '2012-10-01', 12, 'Active', 'emp003', '$employeePassword', 3, '#8B5CF6', 'th')
         ");
         
         // Seed Localization Master (Sample UI texts)
@@ -590,7 +628,7 @@ class Database {
             ['employees', 'พนักงาน', 'Employees', 'ဝန်ထမ်းများ', 'menu'],
             ['employee_list', 'รายชื่อพนักงาน', 'Employee List', 'ဝန်ထမ်းစာရင်း', 'menu'],
             ['add_employee', 'เพิ่มพนักงาน', 'Add Employee', 'ဝန်ထမ်းသစ်ထည့်ရန်', 'action'],
-            ['edit_employee', 'แก้ไขข้อมูลพนักงาน', 'Edit Employee', 'ဝန်ထမ်းအချက်อლက်ပြင်ဆင်ရန်', 'action'],
+            ['edit_employee', 'แก้ไขข้อมูลพนักงาน', 'Edit Employee', 'ဝန်ထမ်းအချက်อလက်ပြင်ဆင်ရန်', 'action'],
             ['employee_id', 'รหัสพนักงาน', 'Employee ID', 'ဝန်ထမ်းနံပါတ်', 'field'],
             ['full_name', 'ชื่อ-นามสกุล', 'Full Name', 'အမည်အပြည့်အစုံ', 'field'],
             

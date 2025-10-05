@@ -39,9 +39,12 @@ class AuthController {
                 return [
                     'success' => false, 
                     'message' => 'Database not initialized. Please contact administrator.',
-                    'redirect' => '/views/admin/db_manager.php'
+                    'redirect' => BASE_URL . '/views/admin/db_manager.php'
                 ];
             }
+            
+            // Make sure we're using the correct database
+            $this->db->getConnection()->exec("USE `" . DB_NAME . "`");
             
             $sql = "SELECT e.*, r.role_name 
                     FROM `employees` e 
@@ -117,7 +120,7 @@ class AuthController {
      */
     public function requireLogin() {
         if (!$this->isLoggedIn()) {
-            header('Location: /index.php?error=login_required');
+            header('Location: ' . BASE_URL . '/index.php?error=login_required');
             exit();
         }
     }
@@ -130,7 +133,7 @@ class AuthController {
         $this->requireLogin();
         
         if (!$this->hasRole($allowedRoles)) {
-            header('Location: /views/error/403.php');
+            header('Location: ' . BASE_URL . '/views/error/403.php');
             exit();
         }
     }

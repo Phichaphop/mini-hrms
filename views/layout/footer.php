@@ -15,14 +15,14 @@
             overlay.classList.toggle('hidden');
         }
 
-        // Change language
+// Change language
         function changeLanguage(language) {
             fetch('<?php echo BASE_URL; ?>/controllers/PreferencesHandler.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: 'action=update_language&language=' + language
+                body: 'action=update_language&language=' + encodeURIComponent(language)
             })
             .then(response => response.json())
             .then(data => {
@@ -30,6 +30,7 @@
                     // Reload page to apply new language
                     location.reload();
                 } else {
+                    console.error('Failed to update language:', data.message);
                     alert('Failed to update language: ' + data.message);
                 }
             })
@@ -60,9 +61,14 @@
                         el.style.backgroundColor = color;
                     });
                     
-                    // Show success message (optional)
+                    const themeTextElements = document.querySelectorAll('.theme-text');
+                    themeTextElements.forEach(el => {
+                        el.style.color = color;
+                    });
+                    
                     console.log('Theme color updated successfully');
                 } else {
+                    console.error('Failed to update theme color:', data.message);
                     alert('Failed to update theme color: ' + data.message);
                 }
             })
