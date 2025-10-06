@@ -14,7 +14,9 @@
 
 3. แก้ไข error
 3.1 An error occurred while updating theme color
-3.2 An error occurred while updating language
+3.2 การเปลี่ยนธีมเปลี่ยนเป็นมีแค่ธีมมืดกับสว่างสลับไปมาสองธีม
+3.3 An error occurred while updating language
+3.4 เพิ่มให้แสดง Icon ธงชาติของแต่ละภาษาแทนชื่อภาษา
 
 4. แก้ไข error leave.php
 4.1 Fatal error: Uncaught Error: Call to undefined function get_text() in D:\Xampp\htdocs\mini-hrms\views\employee\requests\leave.php:5 Stack trace: #0 {main} thrown in D:\Xampp\htdocs\mini-hrms\views\employee\requests\leave.php on line 5
