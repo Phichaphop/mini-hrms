@@ -1,0 +1,17 @@
+# /.htaccess
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /mini-hrms/
+    
+    # อนุญาต PHP files
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # ห้ามบล็อก controllers
+    RewriteCond %{REQUEST_URI} !^/controllers/
+</IfModule>
+
+# Session Settings
+php_value session.name HRMS_SESSION
+php_value session.gc_maxlifetime 3600
+php_value session.cookie_lifetime 3600

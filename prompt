@@ -26,3 +26,39 @@
 6. ขอโค้ดหน้า id_card.php
 
 7. ขอโค้ดหน้า locker.php
+
+-------------------------------------------------------------------------------
+
+0. แก้ไขให้เวลาเพิ่มพนักงาน Position Level, Nationality, 
+Education Level เป็น dorpdwon เหมือนอันอื่น
+
+1.  รบกวนช่วยแก้ไขให้หน่อย เวลาคลิกเปลี่ยนภาษา หรือเปลี่ยนธีมแล้วจะปรากฏข้อความดังนี้
+
+1.1 Network error occurred. Please check console for details.
+
+1.2 (index):64 cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+(anonymous) @ (index):64Understand this warning
+employees.php:759 ✅ Page loaded. Theme mode: light
+employees.php:760 ✅ Current language: th
+employees.php:654 Toggling theme from light to dark
+employees.php:664 Response status: 200
+hook.js:608 ❌ Error: SyntaxError: Unexpected token '<', "<br />
+<b>"... is not valid JSON
+
+
+2. เอาระบบ Appearance ออกให้หน่อย
+
+3. เพิ่มระบบ import ข้อมูลพนักงานผ่านไฟล์ Excel
+
+4. แก้ไข Error หน้า Manage All Requests
+"Fatal error: Uncaught Exception: Query failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_mini_hrms.qr_document_submissions' doesn't exist in D:\Xampp\htdocs\mini-hrms\db\Database.php:581 Stack trace: #0 D:\Xampp\htdocs\mini-hrms\db\Database.php(586): Database->query('SELECT r.*, e.f...', Array) #1 D:\Xampp\htdocs\mini-hrms\views\admin\all_requests.php(92): Database->fetchAll('SELECT r.*, e.f...', Array) #2 {main} thrown in D:\Xampp\htdocs\mini-hrms\db\Database.php on line 581"
+
+5. เพิ่มให้สามารถอัพโหลดรูป Profile พนักงานได้
+
+6.  User ที่ไม่ใช่ Admin or officer ให้เอา Document Management ออกไม่ให้เข้าถึง
+
+7. หน้า My Requests คลิก View Details แล้วไม่เกิดอะไรขึ้นแก้ไขด้วย
+
+8. เวลาขอบริษัทการต่างๆ ข้อมูล Employee Information. ของ role employee and officer input "Position" & "Department" ขึ่น "N/A"
+
+9. เพิ่ม หลังบ้าน ระบบ บริษัทจัดการตู้ล็อกเกอร์ให้ด้วย เพิ่มลบแก้ไข

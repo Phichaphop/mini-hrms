@@ -245,6 +245,7 @@ class Database {
                 `password` VARCHAR(255) NOT NULL,
                 `role_id` INT NOT NULL,
                 `profile_pic_path` VARCHAR(255),
+                `theme_mode` VARCHAR(10) DEFAULT 'light',
                 `theme_color_preference` VARCHAR(7) DEFAULT '#3B82F6',
                 `language_preference` VARCHAR(2) DEFAULT 'en',
                 FOREIGN KEY (`role_id`) REFERENCES `roles`(`role_id`),
@@ -521,70 +522,77 @@ class Database {
         $this->conn->exec("INSERT INTO `employees` 
             (`employee_id`, `prefix_id`, `full_name_th`, `full_name_en`, `function_id`, `division_id`, `department_id`, `section_id`, 
             `position_id`, `position_level`, `sex`, `nationality`, `birthday`, `age`, `education_level`, `phone_no`, `date_of_hire`, `year_of_service`, 
-            `status`, `username`, `password`, `role_id`, `theme_color_preference`, `language_preference`) VALUES
-            ('000001', 1, 'สมชาย ใจดี', 'Somchai Jaidee', 1, 1, 1, 1, 1, 'C-Level', 'Male', 'Thai', '1985-03-15', 39, 'Master Degree', '081-111-1111', '2010-01-15', 15, 'Active', 'admin', '$adminPassword', 1, '#3B82F6', 'en'),
-            ('000002', 2, 'สมหญิง รักงาน', 'Somying Rakngaan', 4, 1, 5, 5, 2, 'Middle Management', 'Female', 'Thai', '1990-07-20', 34, 'Master Degree', '081-222-2222', '2015-06-01', 9, 'Active', 'officer1', '$officerPassword', 2, '#10B981', 'th'),
-            ('000003', 1, 'จอห์น สมิธ', 'John Smith', 2, 2, 2, 2, 3, 'Staff Level', 'Male', 'American', '1992-11-10', 32, 'Bachelor Degree', '081-333-3333', '2018-03-20', 6, 'Active', 'emp001', '$employeePassword', 3, '#F59E0B', 'en'),
-            ('000004', 3, 'มารี ต้น', 'Mary Htun', 2, 2, 3, 3, 4, 'Staff Level', 'Female', 'Myanmar', '1995-05-25', 29, 'Diploma / Associate Degree', '081-444-4444', '2020-08-15', 4, 'Active', 'emp002', '$employeePassword', 3, '#EF4444', 'my'),
-            ('000005', 1, 'ประยุทธ์ ขยัน', 'Prayut Kayan', 3, 3, 4, 4, 5, 'Entry Level', 'Male', 'Thai', '1988-12-05', 36, 'High School / Vocational', '081-555-5555', '2012-10-01', 12, 'Active', 'emp003', '$employeePassword', 3, '#8B5CF6', 'th')
-        ");
-        
-        $localizationData = [
-            ['login', 'เข้าสู่ระบบ', 'Login', 'ဝင်ရောက်ရန်', 'auth'],
-            ['username', 'ชื่อผู้ใช้', 'Username', 'အသုံးပြုသူအမည်', 'auth'],
-            ['password', 'รหัสผ่าน', 'Password', 'လျှို့ဝှက်နံပါတ်', 'auth'],
-            ['logout', 'ออกจากระบบ', 'Logout', 'ထွက်ရန်', 'auth'],
-            ['dashboard', 'หน้าหลัก', 'Dashboard', 'ပင်မစာမျက်နှာ', 'menu'],
-            ['welcome', 'ยินดีต้อนรับ', 'Welcome', 'ကြိုဆိုပါတယ်', 'general'],
-            ['profile', 'ข้อมูลส่วนตัว', 'Profile', 'ကိုယ်ရေးအချက်အလက်', 'menu'],
-            ['employees', 'พนักงาน', 'Employees', 'ဝန်ထမ်းများ', 'menu'],
-            ['requests', 'คำขอ', 'Requests', 'တောင်းဆိုချက်များ', 'menu'],
-            ['my_requests', 'คำขอของฉัน', 'My Requests', 'ကျွန်ုပ်၏တောင်းဆိုချက်များ', 'menu'],
-            ['leave_request', 'ขอลา', 'Leave Request', 'ခွင့်တောင်းခြင်း', 'request'],
-            ['certificate_request', 'ขอใบรับรอง', 'Certificate Request', 'လက်မှတ်တောင်းခြင်း', 'request'],
-            ['id_card_request', 'ขอบัตรพนักงาน', 'ID Card Request', 'မှတ်ပုံတင်တောင်းခြင်း', 'request'],
-            ['locker_request', 'ขอตู้ล็อกเกอร์', 'Locker Request', 'သော့ခတ်သေတ္တာတောင်းခြင်း', 'request'],
-            ['status', 'สถานะ', 'Status', 'အခြေအနေ', 'field'],
-            ['status_new', 'ใหม่', 'New', 'အသစ်', 'status'],
-            ['status_in_progress', 'กำลังดำเนินการ', 'In Progress', 'လုပ်ဆောင်နေသည်', 'status'],
-            ['status_complete', 'เสร็จสิ้น', 'Complete', 'ပြီးစီးပြီ', 'status'],
-            ['submit', 'ส่ง', 'Submit', 'တင်သွင်းရန်', 'action'],
-            ['cancel', 'ยกเลิก', 'Cancel', 'ပယ်ဖျက်ရန်', 'action'],
-            ['documents', 'เอกสาร', 'Documents', 'စာရွက်စာတမ်းများ', 'menu'],
-            ['settings', 'ตั้งค่า', 'Settings', 'ချိန်ညှိမှုများ', 'menu']
-        ];
-        
-        $stmt = $this->conn->prepare("INSERT INTO `localization_master` (`key_id`, `th_text`, `en_text`, `my_text`, `category`) VALUES (?, ?, ?, ?, ?)");
-        foreach ($localizationData as $data) {
-            $stmt->execute($data);
-        }
-    }
+            `status`, `username`, `password`, `role_id`, `theme_mode`, `theme_color_preference`, `language_preference`) VALUES
+            ('000001', 1, 'สมชาย ใจดี', 'Somchai Jaidee', 1, 1, 1, 1, 1, 'C-Level', 'Male', 'Thai', '1985-03-15', 39, 'Master Degree', '081-111-1111', '2010-01-15', 15, 'Active', 'admin', '$adminPassword', 1, 'light', '#3B82F6', 'en'),
+            ('000002', 2, 'สมหญิง รักงาน', 'Somying Rakngaan', 4, 1, 5, 5, 2, 'Middle Management', 'Female', 'Thai', '1990-07-20', 34, 'Master Degree', '081-222-2222', '2015-06-01', 9, 'Active', 'officer1', '$officerPassword', 2, 'light', '#10B981', 'th'),
+            ('000003', 1, 'จอห์น สมิธ', 'John Smith', 2, 2, 2, 2, 3, 'Staff Level', 'Male', 'American', '1992-11-10', 32, 'Bachelor Degree', '081-333-3333', '2018-03-20', 6, 'Active', 'emp001', '$employeePassword', 3, 'light', '#F59E0B', 'en'),
+('000004', 3, 'มารี ต้น', 'Mary Htun', 2, 2, 3, 3, 4, 'Staff Level', 'Female', 'Myanmar', '1995-05-25', 29, 'Diploma / Associate Degree', '081-444-4444', '2020-08-15', 4, 'Active', 'emp002', '$employeePassword', 3, 'dark', '#EF4444', 'my'),
+('000005', 1, 'ประยุทธ์ ขยัน', 'Prayut Kayan', 3, 3, 4, 4, 5, 'Entry Level', 'Male', 'Thai', '1988-12-05', 36, 'High School / Vocational', '081-555-5555', '2012-10-01', 12, 'Active', 'emp003', '$employeePassword', 3, 'light', '#8B5CF6', 'th')
+");$localizationData = [
+        ['login', 'เข้าสู่ระบบ', 'Login', 'ဝင်ရောက်ရန်', 'auth'],
+        ['username', 'ชื่อผู้ใช้', 'Username', 'အသုံးပြုသူအမည်', 'auth'],
+        ['password', 'รหัสผ่าน', 'Password', 'လျှို့ဝှက်နံပါတ်', 'auth'],
+        ['logout', 'ออกจากระบบ', 'Logout', 'ထွက်ရန်', 'auth'],
+        ['dashboard', 'หน้าหลัก', 'Dashboard', 'ပင်မစာမျက်နှာ', 'menu'],
+        ['welcome', 'ยินดีต้อนรับ', 'Welcome', 'ကြိုဆိုပါတယ်', 'general'],
+        ['profile', 'ข้อมูลส่วนตัว', 'Profile', 'ကိုယ်ရေးအချက်အလက်', 'menu'],
+        ['employees', 'พนักงาน', 'Employees', 'ဝန်ထမ်းများ', 'menu'],
+        ['requests', 'คำขอ', 'Requests', 'တောင်းဆိုချက်များ', 'menu'],
+        ['my_requests', 'คำขอของฉัน', 'My Requests', 'ကျွန်ုပ်၏တောင်းဆိုချက်များ', 'menu'],
+        ['all_requests', 'คำขอทั้งหมด', 'All Requests', 'တောင်းဆိုချက်အားလုံး', 'menu'],
+        ['leave_request', 'ขอลา', 'Leave Request', 'ခွင့်တောင်းခြင်း', 'request'],
+        ['certificate_request', 'ขอใบรับรอง', 'Certificate Request', 'လက်မှတ်တောင်းခြင်း', 'request'],
+        ['id_card_request', 'ขอบัตรพนักงาน', 'ID Card Request', 'မှတ်ပုံတင်တောင်းခြင်း', 'request'],
+        ['locker_request', 'ขอตู้ล็อกเกอร์', 'Locker Request', 'သော့ခတ်သေတ္တာတောင်းခြင်း', 'request'],
+        ['status', 'สถานะ', 'Status', 'အခြေအနေ', 'field'],
+        ['status_new', 'ใหม่', 'New', 'အသစ်', 'status'],
+        ['status_in_progress', 'กำลังดำเนินการ', 'In Progress', 'လုပ်ဆောင်နေသည်', 'status'],
+        ['status_complete', 'เสร็จสิ้น', 'Complete', 'ပြီးစီးပြီ', 'status'],
+        ['submit', 'ส่ง', 'Submit', 'တင်သွင်းရန်', 'action'],
+        ['cancel', 'ยกเลิก', 'Cancel', 'ပယ်ဖျက်ရန်', 'action'],
+        ['documents', 'เอกสาร', 'Documents', 'စာရွက်စာတမ်းများ', 'menu'],
+        ['document_submit', 'ส่งเอกสาร', 'Document Submit', 'စာရွက်တင်သွင်းရန်', 'menu'],
+        ['document_management', 'จัดการเอกสาร', 'Document Management', 'စာရွက်စီမံခန့်ခွဲမှု', 'menu'],
+        ['settings', 'ตั้งค่า', 'Settings', 'ချိန်ညှိမှုများ', 'menu'],
+        ['master_data', 'ข้อมูลหลัก', 'Master Data', 'အခြေခံအချက်အလက်', 'menu'],
+        ['manage_master_data', 'จัดการข้อมูลหลัก', 'Manage Master Data', 'အခြေခံအချက်အလက်စီမံခန့်ခွဲရန်', 'menu'],
+        ['localization', 'จัดการภาษา', 'Localization', 'ဘာသာစကားစီမံခန့်ခွဲမှု', 'menu'],
+        ['employee_id', 'รหัสพนักงาน', 'Employee ID', 'ဝန်ထမ်းနံပါတ်', 'field'],
+        ['full_name', 'ชื่อ-นามสกุล', 'Full Name', 'အမည်အပြည့်အစုံ', 'field'],
+        ['new_request', 'สร้างคำขอใหม่', 'New Request', 'တောင်းဆိုချက်အသစ်', 'action'],
+        ['no_data', 'ไม่มีข้อมูล', 'No data', 'အချက်အလက်မရှိပါ', 'general']
+    ];
     
-    public function query($sql, $params = []) {
-        try {
-            if ($this->databaseExists()) {
-                $this->conn->exec("USE `" . DB_NAME . "`");
-            }
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute($params);
-            return $stmt;
-        } catch(PDOException $e) {
-            throw new Exception("Query failed: " . $e->getMessage());
-        }
-    }
-    
-    public function fetchAll($sql, $params = []) {
-        $stmt = $this->query($sql, $params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    
-    public function fetchOne($sql, $params = []) {
-        $stmt = $this->query($sql, $params);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-    
-    public function lastInsertId() {
-        return $this->conn->lastInsertId();
+    $stmt = $this->conn->prepare("INSERT INTO `localization_master` (`key_id`, `th_text`, `en_text`, `my_text`, `category`) VALUES (?, ?, ?, ?, ?)");
+    foreach ($localizationData as $data) {
+        $stmt->execute($data);
     }
 }
-?>
+
+public function query($sql, $params = []) {
+    try {
+        if ($this->databaseExists()) {
+            $this->conn->exec("USE `" . DB_NAME . "`");
+        }
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($params);
+        return $stmt;
+    } catch(PDOException $e) {
+        throw new Exception("Query failed: " . $e->getMessage());
+    }
+}
+
+public function fetchAll($sql, $params = []) {
+    $stmt = $this->query($sql, $params);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function fetchOne($sql, $params = []) {
+    $stmt = $this->query($sql, $params);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+public function lastInsertId() {
+    return $this->conn->lastInsertId();
+}
+}

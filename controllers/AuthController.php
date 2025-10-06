@@ -32,53 +32,57 @@ class AuthController {
      * @param string $password
      * @return array ['success' => bool, 'message' => string]
      */
-    public function login($username, $password) {
-        try {
-            // Check if database exists first
-            if (!$this->db->databaseExists()) {
-                return [
-                    'success' => false, 
-                    'message' => 'Database not initialized. Please contact administrator.',
-                    'redirect' => BASE_URL . '/views/admin/db_manager.php'
-                ];
-            }
-            
-            // Make sure we're using the correct database
-            $this->db->getConnection()->exec("USE `" . DB_NAME . "`");
-            
-            $sql = "SELECT e.*, r.role_name 
-                    FROM `employees` e 
-                    JOIN `roles` r ON e.role_id = r.role_id 
-                    WHERE e.username = ? AND e.status = 'Active'";
-            
-            $user = $this->db->fetchOne($sql, [$username]);
-            
-            if (!$user) {
-                return ['success' => false, 'message' => 'Invalid username or password'];
-            }
-            
-            // Verify password
-            if (!password_verify($password, $user['password'])) {
-                return ['success' => false, 'message' => 'Invalid username or password'];
-            }
-            
-            // Set session variables
-            $_SESSION['user_id'] = $user['employee_id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['full_name'] = $user['full_name_en'];
-            $_SESSION['role_id'] = $user['role_id'];
-            $_SESSION['role_name'] = $user['role_name'];
-            $_SESSION['theme_color'] = $user['theme_color_preference'];
-            $_SESSION['user_language'] = $user['language_preference'];
-            $_SESSION['profile_pic'] = $user['profile_pic_path'];
-            $_SESSION['logged_in'] = true;
-            
-            return ['success' => true, 'message' => 'Login successful'];
-            
-        } catch (Exception $e) {
-            return ['success' => false, 'message' => 'Login failed: ' . $e->getMessage()];
+  public function login($username, $password) {
+    try {
+        // Check if database exists first
+        if (!$this->db->databaseExists()) {
+            return [
+                'success' => false, 
+                'message' => 'Database not initialized. Please contact administrator.',
+                'redirect' => BASE_URL . '/views/admin/db_manager.php'
+            ];
         }
+        
+        // Make sure we're using the correct database
+        $this->db->getConnection()->exec("USE `" . DB_NAME . "`");
+        
+        $sql = "SELECT e.*, r.role_name 
+                FROM `employees` e 
+                JOIN `roles` r ON e.role_id = r.role_id 
+                WHERE e.username = ? AND e.status = 'Active'";
+        
+        $user = $this->db->fetchOne($sql, [$username]);
+        
+        if (!$user) {
+            return ['success' => false, 'message' => 'Invalid username or password'];
+        }
+        
+        // Verify password
+        if (!password_verify($password, $user['password'])) {
+            return ['success' => false, 'message' => 'Invalid username or password'];
+        }
+        
+        // Set session variables
+        $_SESSION['user_id'] = $user['employee_id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['full_name'] = $user['full_name_en'];
+        $_SESSION['role_id'] = $user['role_id'];
+        $_SESSION['role_name'] = $user['role_name'];
+        $_SESSION['theme_mode'] = $user['theme_mode'] ?? 'light';
+        $_SESSION['theme_color'] = $user['theme_color_preference'];
+        $_SESSION['user_language'] = $user['language_preference'];
+        $_SESSION['profile_pic'] = $user['profile_pic_path'];
+        $_SESSION['logged_in'] = true;
+        
+        // ✅ เพิ่มบรรทัดนี้ - สร้าง CSRF Token
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        
+        return ['success' => true, 'message' => 'Login successful'];
+        
+    } catch (Exception $e) {
+        return ['success' => false, 'message' => 'Login failed: ' . $e->getMessage()];
     }
+}
     
     /**
      * Logout user
@@ -269,6 +273,30 @@ class AuthController {
         $headers .= "From: " . SMTP_FROM_NAME . " <" . SMTP_FROM . ">" . "\r\n";
         
         mail($to, $subject, $message, $headers);
+    }
+    
+    /**
+     * Update user theme mode
+     * @param string $mode
+     * @return bool
+     */
+    public function updateThemeMode($mode) {
+        if (!$this->isLoggedIn()) {
+            return false;
+        }
+        
+        if (!in_array($mode, ['light', 'dark'])) {
+            return false;
+        }
+        
+        try {
+            $sql = "UPDATE employees SET theme_mode = ? WHERE employee_id = ?";
+            $this->db->query($sql, [$mode, $_SESSION['user_id']]);
+            $_SESSION['theme_mode'] = $mode;
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
     
     /**

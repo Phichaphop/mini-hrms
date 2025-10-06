@@ -1,0 +1,754 @@
+[2025-10-06 18:30:42] === NEW REQUEST ===
+[2025-10-06 18:30:42] POST Data:
+Array
+(
+    [action] => update_language
+    [language] => th
+)
+
+[2025-10-06 18:30:42] Session Data:
+Array
+(
+    [LAST_ACTIVITY] => 1759767626
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => light
+    [theme_color] => #3B82F6
+    [user_language] => en
+    [profile_pic] => 
+    [logged_in] => 1
+)
+
+[2025-10-06 18:30:42] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:30:42] User ID: 000001
+[2025-10-06 18:30:42] Action: update_language
+[2025-10-06 18:30:42] Updating language to: th
+[2025-10-06 18:30:42] ✅ Language updated successfully
+[2025-10-06 18:30:43] === NEW REQUEST ===
+[2025-10-06 18:30:43] POST Data:
+Array
+(
+    [action] => update_language
+    [language] => my
+)
+
+[2025-10-06 18:30:43] Session Data:
+Array
+(
+    [LAST_ACTIVITY] => 1759767626
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => light
+    [theme_color] => #3B82F6
+    [user_language] => th
+    [profile_pic] => 
+    [logged_in] => 1
+)
+
+[2025-10-06 18:30:43] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:30:43] User ID: 000001
+[2025-10-06 18:30:43] Action: update_language
+[2025-10-06 18:30:43] Updating language to: my
+[2025-10-06 18:30:43] ✅ Language updated successfully
+[2025-10-06 18:30:46] === NEW REQUEST ===
+[2025-10-06 18:30:46] POST Data:
+Array
+(
+    [action] => update_theme
+    [mode] => dark
+)
+
+[2025-10-06 18:30:46] Session Data:
+Array
+(
+    [LAST_ACTIVITY] => 1759767626
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => light
+    [theme_color] => #3B82F6
+    [user_language] => my
+    [profile_pic] => 
+    [logged_in] => 1
+)
+
+[2025-10-06 18:30:46] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:30:46] User ID: 000001
+[2025-10-06 18:30:46] Action: update_theme
+[2025-10-06 18:30:46] Updating theme to: dark
+[2025-10-06 18:30:46] ✅ Theme updated successfully
+[2025-10-06 18:31:19] === NEW REQUEST ===
+[2025-10-06 18:31:19] POST Data:
+Array
+(
+    [action] => update_theme
+    [mode] => light
+)
+
+[2025-10-06 18:31:19] Session Data:
+Array
+(
+    [LAST_ACTIVITY] => 1759767626
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => dark
+    [theme_color] => #3B82F6
+    [user_language] => my
+    [profile_pic] => 
+    [logged_in] => 1
+)
+
+[2025-10-06 18:31:19] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:31:19] User ID: 000001
+[2025-10-06 18:31:19] Action: update_theme
+[2025-10-06 18:31:19] Updating theme to: light
+[2025-10-06 18:31:19] ✅ Theme updated successfully
+[2025-10-06 18:31:22] === NEW REQUEST ===
+[2025-10-06 18:31:22] POST Data:
+Array
+(
+    [action] => update_theme
+    [mode] => dark
+)
+
+[2025-10-06 18:31:22] Session Data:
+Array
+(
+    [LAST_ACTIVITY] => 1759767626
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => light
+    [theme_color] => #3B82F6
+    [user_language] => my
+    [profile_pic] => 
+    [logged_in] => 1
+)
+
+[2025-10-06 18:31:22] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:31:22] User ID: 000001
+[2025-10-06 18:31:22] Action: update_theme
+[2025-10-06 18:31:22] Updating theme to: dark
+[2025-10-06 18:31:22] ✅ Theme updated successfully
+[2025-10-06 18:31:23] === NEW REQUEST ===
+[2025-10-06 18:31:23] POST Data:
+Array
+(
+    [action] => update_language
+    [language] => th
+)
+
+[2025-10-06 18:31:23] Session Data:
+Array
+(
+    [LAST_ACTIVITY] => 1759767626
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => dark
+    [theme_color] => #3B82F6
+    [user_language] => my
+    [profile_pic] => 
+    [logged_in] => 1
+)
+
+[2025-10-06 18:31:23] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:31:23] User ID: 000001
+[2025-10-06 18:31:23] Action: update_language
+[2025-10-06 18:31:23] Updating language to: th
+[2025-10-06 18:31:23] ✅ Language updated successfully
+[2025-10-06 18:31:27] === NEW REQUEST ===
+[2025-10-06 18:31:27] POST Data:
+Array
+(
+    [action] => update_theme
+    [mode] => light
+)
+
+[2025-10-06 18:31:27] Session Data:
+Array
+(
+    [LAST_ACTIVITY] => 1759767626
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => dark
+    [theme_color] => #3B82F6
+    [user_language] => th
+    [profile_pic] => 
+    [logged_in] => 1
+)
+
+[2025-10-06 18:31:27] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:31:27] User ID: 000001
+[2025-10-06 18:31:27] Action: update_theme
+[2025-10-06 18:31:27] Updating theme to: light
+[2025-10-06 18:31:27] ✅ Theme updated successfully
+[2025-10-06 18:31:30] === NEW REQUEST ===
+[2025-10-06 18:31:30] POST Data:
+Array
+(
+    [action] => update_language
+    [language] => en
+)
+
+[2025-10-06 18:31:30] Session Data:
+Array
+(
+    [LAST_ACTIVITY] => 1759767626
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => light
+    [theme_color] => #3B82F6
+    [user_language] => th
+    [profile_pic] => 
+    [logged_in] => 1
+)
+
+[2025-10-06 18:31:30] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:31:30] User ID: 000001
+[2025-10-06 18:31:30] Action: update_language
+[2025-10-06 18:31:30] Updating language to: en
+[2025-10-06 18:31:30] ✅ Language updated successfully
+[2025-10-06 18:31:32] === NEW REQUEST ===
+[2025-10-06 18:31:32] POST Data:
+Array
+(
+    [action] => update_language
+    [language] => my
+)
+
+[2025-10-06 18:31:32] Session Data:
+Array
+(
+    [LAST_ACTIVITY] => 1759767626
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => light
+    [theme_color] => #3B82F6
+    [user_language] => en
+    [profile_pic] => 
+    [logged_in] => 1
+)
+
+[2025-10-06 18:31:32] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:31:32] User ID: 000001
+[2025-10-06 18:31:32] Action: update_language
+[2025-10-06 18:31:32] Updating language to: my
+[2025-10-06 18:31:32] ✅ Language updated successfully
+[2025-10-06 18:31:36] === NEW REQUEST ===
+[2025-10-06 18:31:36] POST Data:
+Array
+(
+    [action] => update_theme
+    [mode] => dark
+)
+
+[2025-10-06 18:31:36] Session Data:
+Array
+(
+    [LAST_ACTIVITY] => 1759767626
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => light
+    [theme_color] => #3B82F6
+    [user_language] => my
+    [profile_pic] => 
+    [logged_in] => 1
+)
+
+[2025-10-06 18:31:36] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:31:36] User ID: 000001
+[2025-10-06 18:31:36] Action: update_theme
+[2025-10-06 18:31:36] Updating theme to: dark
+[2025-10-06 18:31:36] ✅ Theme updated successfully
+[2025-10-06 18:31:37] === NEW REQUEST ===
+[2025-10-06 18:31:37] POST Data:
+Array
+(
+    [action] => update_language
+    [language] => th
+)
+
+[2025-10-06 18:31:37] Session Data:
+Array
+(
+    [LAST_ACTIVITY] => 1759767626
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => dark
+    [theme_color] => #3B82F6
+    [user_language] => my
+    [profile_pic] => 
+    [logged_in] => 1
+)
+
+[2025-10-06 18:31:37] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:31:37] User ID: 000001
+[2025-10-06 18:31:37] Action: update_language
+[2025-10-06 18:31:37] Updating language to: th
+[2025-10-06 18:31:37] ✅ Language updated successfully
+[2025-10-06 18:31:44] === NEW REQUEST ===
+[2025-10-06 18:31:44] POST Data:
+Array
+(
+    [action] => update_theme
+    [mode] => light
+)
+
+[2025-10-06 18:31:44] Session Data:
+Array
+(
+    [LAST_ACTIVITY] => 1759767626
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => dark
+    [theme_color] => #3B82F6
+    [user_language] => th
+    [profile_pic] => 
+    [logged_in] => 1
+)
+
+[2025-10-06 18:31:44] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:31:44] User ID: 000001
+[2025-10-06 18:31:44] Action: update_theme
+[2025-10-06 18:31:44] Updating theme to: light
+[2025-10-06 18:31:44] ✅ Theme updated successfully
+[2025-10-06 18:31:46] === NEW REQUEST ===
+[2025-10-06 18:31:46] POST Data:
+Array
+(
+    [action] => update_theme
+    [mode] => dark
+)
+
+[2025-10-06 18:31:46] Session Data:
+Array
+(
+    [LAST_ACTIVITY] => 1759767626
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => light
+    [theme_color] => #3B82F6
+    [user_language] => th
+    [profile_pic] => 
+    [logged_in] => 1
+)
+
+[2025-10-06 18:31:46] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:31:46] User ID: 000001
+[2025-10-06 18:31:46] Action: update_theme
+[2025-10-06 18:31:46] Updating theme to: dark
+[2025-10-06 18:31:46] ✅ Theme updated successfully
+[2025-10-06 18:32:07] === NEW REQUEST ===
+[2025-10-06 18:32:07] POST Data:
+Array
+(
+    [action] => update_theme
+    [mode] => light
+)
+
+[2025-10-06 18:32:07] Session Data:
+Array
+(
+    [LAST_ACTIVITY] => 1759767626
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => dark
+    [theme_color] => #3B82F6
+    [user_language] => th
+    [profile_pic] => 
+    [logged_in] => 1
+)
+
+[2025-10-06 18:32:07] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:32:07] User ID: 000001
+[2025-10-06 18:32:07] Action: update_theme
+[2025-10-06 18:32:07] Updating theme to: light
+[2025-10-06 18:32:07] ✅ Theme updated successfully
+[2025-10-06 18:33:13] === NEW REQUEST ===
+[2025-10-06 18:33:13] POST Data:
+Array
+(
+    [action] => update_language
+    [language] => th
+)
+
+[2025-10-06 18:33:13] Session Data:
+Array
+(
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => light
+    [theme_color] => #3B82F6
+    [user_language] => en
+    [profile_pic] => 
+    [logged_in] => 1
+    [csrf_token] => 6ca4f180201c9150f2fdd9d5355bddc26d07236a36a3fc1bce2bed185e81a6df
+)
+
+[2025-10-06 18:33:13] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:33:13] User ID: 000001
+[2025-10-06 18:33:13] Action: update_language
+[2025-10-06 18:33:13] Updating language to: th
+[2025-10-06 18:33:13] ✅ Language updated successfully
+[2025-10-06 18:39:03] === NEW REQUEST ===
+[2025-10-06 18:39:03] POST Data:
+Array
+(
+    [action] => update_language
+    [language] => en
+)
+
+[2025-10-06 18:39:03] Session Data:
+Array
+(
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => light
+    [theme_color] => #3B82F6
+    [user_language] => th
+    [profile_pic] => 
+    [logged_in] => 1
+    [csrf_token] => 6ca4f180201c9150f2fdd9d5355bddc26d07236a36a3fc1bce2bed185e81a6df
+)
+
+[2025-10-06 18:39:03] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:39:03] User ID: 000001
+[2025-10-06 18:39:03] Action: update_language
+[2025-10-06 18:39:03] Updating language to: en
+[2025-10-06 18:39:03] ✅ Language updated successfully
+[2025-10-06 18:39:16] === NEW REQUEST ===
+[2025-10-06 18:39:16] POST Data:
+Array
+(
+    [action] => update_language
+    [language] => th
+)
+
+[2025-10-06 18:39:16] Session Data:
+Array
+(
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => light
+    [theme_color] => #3B82F6
+    [user_language] => en
+    [profile_pic] => 
+    [logged_in] => 1
+    [csrf_token] => 6ca4f180201c9150f2fdd9d5355bddc26d07236a36a3fc1bce2bed185e81a6df
+)
+
+[2025-10-06 18:39:16] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:39:16] User ID: 000001
+[2025-10-06 18:39:16] Action: update_language
+[2025-10-06 18:39:16] Updating language to: th
+[2025-10-06 18:39:16] ✅ Language updated successfully
+[2025-10-06 18:39:20] === NEW REQUEST ===
+[2025-10-06 18:39:20] POST Data:
+Array
+(
+    [action] => update_theme
+    [mode] => dark
+)
+
+[2025-10-06 18:39:20] Session Data:
+Array
+(
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => light
+    [theme_color] => #3B82F6
+    [user_language] => th
+    [profile_pic] => 
+    [logged_in] => 1
+    [csrf_token] => 6ca4f180201c9150f2fdd9d5355bddc26d07236a36a3fc1bce2bed185e81a6df
+)
+
+[2025-10-06 18:39:20] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:39:20] User ID: 000001
+[2025-10-06 18:39:20] Action: update_theme
+[2025-10-06 18:39:20] Updating theme to: dark
+[2025-10-06 18:39:20] ✅ Theme updated successfully
+[2025-10-06 18:40:28] === NEW REQUEST ===
+[2025-10-06 18:40:28] POST Data:
+Array
+(
+    [action] => update_theme
+    [mode] => light
+)
+
+[2025-10-06 18:40:28] Session Data:
+Array
+(
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => dark
+    [theme_color] => #3B82F6
+    [user_language] => th
+    [profile_pic] => 
+    [logged_in] => 1
+    [csrf_token] => 6ca4f180201c9150f2fdd9d5355bddc26d07236a36a3fc1bce2bed185e81a6df
+)
+
+[2025-10-06 18:40:28] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:40:28] User ID: 000001
+[2025-10-06 18:40:28] Action: update_theme
+[2025-10-06 18:40:28] Updating theme to: light
+[2025-10-06 18:40:28] ✅ Theme updated successfully
+[2025-10-06 18:40:36] === NEW REQUEST ===
+[2025-10-06 18:40:36] POST Data:
+Array
+(
+    [action] => update_theme
+    [mode] => dark
+)
+
+[2025-10-06 18:40:36] Session Data:
+Array
+(
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => light
+    [theme_color] => #3B82F6
+    [user_language] => th
+    [profile_pic] => 
+    [logged_in] => 1
+    [csrf_token] => 6ca4f180201c9150f2fdd9d5355bddc26d07236a36a3fc1bce2bed185e81a6df
+)
+
+[2025-10-06 18:40:36] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:40:36] User ID: 000001
+[2025-10-06 18:40:36] Action: update_theme
+[2025-10-06 18:40:36] Updating theme to: dark
+[2025-10-06 18:40:36] ✅ Theme updated successfully
+[2025-10-06 18:42:40] === NEW REQUEST ===
+[2025-10-06 18:42:40] POST Data:
+Array
+(
+    [action] => update_theme
+    [mode] => light
+)
+
+[2025-10-06 18:42:40] Session Data:
+Array
+(
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => dark
+    [theme_color] => #3B82F6
+    [user_language] => th
+    [profile_pic] => 
+    [logged_in] => 1
+    [csrf_token] => 6ca4f180201c9150f2fdd9d5355bddc26d07236a36a3fc1bce2bed185e81a6df
+)
+
+[2025-10-06 18:42:40] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:42:40] User ID: 000001
+[2025-10-06 18:42:40] Action: update_theme
+[2025-10-06 18:42:40] Updating theme to: light
+[2025-10-06 18:42:40] ✅ Theme updated successfully
+[2025-10-06 18:48:54] === NEW REQUEST ===
+[2025-10-06 18:48:54] POST Data:
+Array
+(
+    [action] => update_theme
+    [mode] => dark
+)
+
+[2025-10-06 18:48:54] Session Data:
+Array
+(
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => light
+    [theme_color] => #3B82F6
+    [user_language] => th
+    [profile_pic] => 
+    [logged_in] => 1
+    [csrf_token] => 6ca4f180201c9150f2fdd9d5355bddc26d07236a36a3fc1bce2bed185e81a6df
+)
+
+[2025-10-06 18:48:54] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:48:54] User ID: 000001
+[2025-10-06 18:48:54] Action: update_theme
+[2025-10-06 18:48:54] Updating theme to: dark
+[2025-10-06 18:48:54] ✅ Theme updated successfully
+[2025-10-06 18:48:58] === NEW REQUEST ===
+[2025-10-06 18:48:58] POST Data:
+Array
+(
+    [action] => update_theme
+    [mode] => light
+)
+
+[2025-10-06 18:48:58] Session Data:
+Array
+(
+    [user_id] => 000001
+    [username] => admin
+    [full_name] => Somchai Jaidee
+    [role_id] => 1
+    [role_name] => Admin
+    [theme_mode] => dark
+    [theme_color] => #3B82F6
+    [user_language] => th
+    [profile_pic] => 
+    [logged_in] => 1
+    [csrf_token] => 6ca4f180201c9150f2fdd9d5355bddc26d07236a36a3fc1bce2bed185e81a6df
+)
+
+[2025-10-06 18:48:58] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:48:58] User ID: 000001
+[2025-10-06 18:48:58] Action: update_theme
+[2025-10-06 18:48:58] Updating theme to: light
+[2025-10-06 18:48:58] ✅ Theme updated successfully
+[2025-10-06 18:54:05] === NEW REQUEST ===
+[2025-10-06 18:54:05] POST Data:
+Array
+(
+    [action] => update_language
+    [language] => th
+)
+
+[2025-10-06 18:54:05] Session Data:
+Array
+(
+    [user_id] => 000003
+    [username] => emp001
+    [full_name] => John Smith
+    [role_id] => 3
+    [role_name] => Employee
+    [theme_mode] => light
+    [theme_color] => #F59E0B
+    [user_language] => en
+    [profile_pic] => 
+    [logged_in] => 1
+    [csrf_token] => 7d54f817cb4b55f6716ba8c288af42ce73ea966e958e82d917e2f68790bce9bf
+)
+
+[2025-10-06 18:54:05] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:54:05] User ID: 000003
+[2025-10-06 18:54:05] Action: update_language
+[2025-10-06 18:54:05] Updating language to: th
+[2025-10-06 18:54:05] ✅ Language updated successfully
+[2025-10-06 18:54:19] === NEW REQUEST ===
+[2025-10-06 18:54:19] POST Data:
+Array
+(
+    [action] => update_language
+    [language] => en
+)
+
+[2025-10-06 18:54:19] Session Data:
+Array
+(
+    [user_id] => 000003
+    [username] => emp001
+    [full_name] => John Smith
+    [role_id] => 3
+    [role_name] => Employee
+    [theme_mode] => light
+    [theme_color] => #F59E0B
+    [user_language] => th
+    [profile_pic] => 
+    [logged_in] => 1
+    [csrf_token] => 7d54f817cb4b55f6716ba8c288af42ce73ea966e958e82d917e2f68790bce9bf
+)
+
+[2025-10-06 18:54:19] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:54:19] User ID: 000003
+[2025-10-06 18:54:19] Action: update_language
+[2025-10-06 18:54:19] Updating language to: en
+[2025-10-06 18:54:19] ✅ Language updated successfully
+[2025-10-06 18:54:36] === NEW REQUEST ===
+[2025-10-06 18:54:36] POST Data:
+Array
+(
+    [action] => update_language
+    [language] => th
+)
+
+[2025-10-06 18:54:36] Session Data:
+Array
+(
+    [user_id] => 000003
+    [username] => emp001
+    [full_name] => John Smith
+    [role_id] => 3
+    [role_name] => Employee
+    [theme_mode] => light
+    [theme_color] => #F59E0B
+    [user_language] => en
+    [profile_pic] => 
+    [logged_in] => 1
+    [csrf_token] => 7d54f817cb4b55f6716ba8c288af42ce73ea966e958e82d917e2f68790bce9bf
+)
+
+[2025-10-06 18:54:36] Session ID: qvbm9kfvqa50svsucc1b914no3
+[2025-10-06 18:54:36] User ID: 000003
+[2025-10-06 18:54:36] Action: update_language
+[2025-10-06 18:54:36] Updating language to: th
+[2025-10-06 18:54:36] ✅ Language updated successfully
