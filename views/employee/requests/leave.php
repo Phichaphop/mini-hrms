@@ -2,7 +2,17 @@
 // /views/employee/requests/leave.php
 // Leave Request Form
 
+require_once __DIR__ . '/../../../config/db_config.php';
+require_once __DIR__ . '/../../../db/Database.php';
+require_once __DIR__ . '/../../../db/Localization.php';
+require_once __DIR__ . '/../../../controllers/AuthController.php';
+
+$auth = new AuthController();
+$auth->requireLogin();
+
 $pageTitle = get_text('leave_request');
+$currentUser = $auth->getCurrentUser();
+
 require_once __DIR__ . '/../../layout/header.php';
 
 $db = Database::getInstance();
@@ -16,12 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $endDate = $_POST['end_date'] ?? '';
     $reason = $_POST['reason'] ?? '';
     
-    // Validate
     if (empty($leaveType) || empty($startDate) || empty($endDate)) {
         $message = 'Please fill all required fields';
         $messageType = 'error';
     } else {
-        // Calculate total days
         $start = new DateTime($startDate);
         $end = new DateTime($endDate);
         $totalDays = $end->diff($start)->days + 1;
@@ -40,32 +48,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Auto-fill employee data
 $employee = $currentUser;
 ?>
 
 <div class="max-w-4xl mx-auto">
-    <!-- Page Header -->
     <div class="mb-6">
         <h1 class="text-2xl font-bold text-gray-800"><?php echo get_text('leave_request'); ?></h1>
         <p class="text-gray-600 mt-1">Submit a new leave request</p>
     </div>
     
-    <!-- Alert Messages -->
     <?php if ($message): ?>
         <div class="mb-6 p-4 rounded-lg <?php echo $messageType === 'success' ? 'bg-green-50 border-l-4 border-green-500' : 'bg-red-50 border-l-4 border-red-500'; ?>">
             <p class="<?php echo $messageType === 'success' ? 'text-green-700' : 'text-red-700'; ?>">
                 <?php echo htmlspecialchars($message); ?>
             </p>
             <?php if ($messageType === 'success'): ?>
-                <a href="/views/employee/my_requests.php" class="text-sm text-green-600 hover:underline mt-2 inline-block">
+                <a href="<?php echo BASE_URL; ?>/views/employee/my_requests.php" class="text-sm text-green-600 hover:underline mt-2 inline-block">
                     View My Requests →
                 </a>
             <?php endif; ?>
         </div>
     <?php endif; ?>
     
-    <!-- Request Form -->
     <div class="bg-white rounded-lg shadow-lg p-6">
         <form method="POST" id="leaveRequestForm" class="space-y-6">
             <!-- Employee Information (Read-only) -->
@@ -184,7 +188,7 @@ $employee = $currentUser;
                         class="flex-1 theme-bg text-white py-3 rounded-lg hover:opacity-90 transition font-semibold">
                     <?php echo get_text('submit'); ?>
                 </button>
-                <a href="/views/dashboard.php" 
+                <a href="<?php echo BASE_URL; ?>/views/dashboard.php" 
                    class="flex-1 bg-gray-500 text-white py-3 rounded-lg hover:bg-gray-600 transition font-semibold text-center">
                     <?php echo get_text('cancel'); ?>
                 </a>
@@ -194,7 +198,6 @@ $employee = $currentUser;
 </div>
 
 <script>
-    // Calculate total days
     function calculateTotalDays() {
         const startDate = document.getElementById('start_date').value;
         const endDate = document.getElementById('end_date').value;
@@ -216,7 +219,6 @@ $employee = $currentUser;
     document.getElementById('start_date').addEventListener('change', calculateTotalDays);
     document.getElementById('end_date').addEventListener('change', calculateTotalDays);
     
-    // Form validation
     document.getElementById('leaveRequestForm').addEventListener('submit', function(e) {
         const startDate = new Date(document.getElementById('start_date').value);
         const endDate = new Date(document.getElementById('end_date').value);

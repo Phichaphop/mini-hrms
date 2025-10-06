@@ -14,7 +14,6 @@ class Database {
             $this->conn = new PDO($dsn, DB_USER, DB_PASS);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
-            // Try to select database if it exists
             if ($this->databaseExists()) {
                 $this->conn->exec("USE `" . DB_NAME . "`");
             }
@@ -74,7 +73,6 @@ class Database {
                 $this->conn->exec($tableSql);
             }
             
-            // Seed initial data
             $this->seedInitialData();
             
             return ['success' => true, 'message' => 'All tables created and seeded successfully'];
@@ -104,7 +102,6 @@ class Database {
     
     private function getTableDefinitions() {
         return [
-            // Roles table
             "CREATE TABLE IF NOT EXISTS `roles` (
                 `role_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `role_name` VARCHAR(50) NOT NULL UNIQUE,
@@ -113,7 +110,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Localization Master
             "CREATE TABLE IF NOT EXISTS `localization_master` (
                 `key_id` VARCHAR(100) PRIMARY KEY,
                 `th_text` TEXT,
@@ -124,7 +120,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Prefix Master
             "CREATE TABLE IF NOT EXISTS `prefix_master` (
                 `prefix_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `prefix_name_th` VARCHAR(50),
@@ -134,7 +129,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Function Master
             "CREATE TABLE IF NOT EXISTS `function_master` (
                 `function_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `function_name` VARCHAR(100) NOT NULL,
@@ -142,7 +136,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Division Master
             "CREATE TABLE IF NOT EXISTS `division_master` (
                 `division_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `division_name` VARCHAR(100) NOT NULL,
@@ -150,7 +143,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Department Master
             "CREATE TABLE IF NOT EXISTS `department_master` (
                 `department_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `department_name` VARCHAR(100) NOT NULL,
@@ -160,7 +152,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Section Master
             "CREATE TABLE IF NOT EXISTS `section_master` (
                 `section_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `section_name` VARCHAR(100) NOT NULL,
@@ -170,7 +161,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Position Master
             "CREATE TABLE IF NOT EXISTS `position_master` (
                 `position_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `position_name` VARCHAR(100) NOT NULL,
@@ -178,7 +168,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Position Level Master (NEW)
             "CREATE TABLE IF NOT EXISTS `position_level_master` (
                 `level_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `level_name` VARCHAR(100) NOT NULL,
@@ -186,7 +175,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Education Level Master (NEW)
             "CREATE TABLE IF NOT EXISTS `education_level_master` (
                 `education_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `education_name` VARCHAR(100) NOT NULL,
@@ -194,7 +182,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Service Category Master
             "CREATE TABLE IF NOT EXISTS `service_category_master` (
                 `category_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `category_name_th` VARCHAR(100),
@@ -204,7 +191,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Service Type Master
             "CREATE TABLE IF NOT EXISTS `service_type_master` (
                 `type_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `type_name_th` VARCHAR(100),
@@ -214,7 +200,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Document Type Master
             "CREATE TABLE IF NOT EXISTS `doc_type_master` (
                 `doc_type_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `doc_type_name` VARCHAR(100) NOT NULL,
@@ -222,7 +207,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Employees table
             "CREATE TABLE IF NOT EXISTS `employees` (
                 `employee_id` VARCHAR(6) PRIMARY KEY,
                 `prefix_id` INT,
@@ -274,7 +258,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Company Information
             "CREATE TABLE IF NOT EXISTS `company_info` (
                 `company_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `company_name` VARCHAR(255) NOT NULL,
@@ -287,7 +270,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Locker Master
             "CREATE TABLE IF NOT EXISTS `locker_master` (
                 `locker_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `locker_number` VARCHAR(20) UNIQUE NOT NULL,
@@ -299,7 +281,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Locker Usage History
             "CREATE TABLE IF NOT EXISTS `locker_usage_history` (
                 `history_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `locker_id` INT NOT NULL,
@@ -312,8 +293,7 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Documents Storage
-            "CREATE TABLE IF NOT EXISTS `documents` (
+            "CREATE TABLE IF NOT EXISTS `document_management` (
                 `doc_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `file_name_custom` VARCHAR(255) NOT NULL,
                 `file_path` VARCHAR(500) NOT NULL,
@@ -326,7 +306,24 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Leave Requests
+            "CREATE TABLE IF NOT EXISTS `document_submissions` (
+                `submission_id` INT AUTO_INCREMENT PRIMARY KEY,
+                `employee_id` VARCHAR(6) NOT NULL,
+                `service_category_id` INT NOT NULL,
+                `service_type_id` INT NOT NULL,
+                `document_path` VARCHAR(500),
+                `notes` TEXT,
+                `status` ENUM('New','In Progress','Complete','Cancelled') DEFAULT 'New',
+                `handler_id` VARCHAR(6),
+                `handler_remarks` TEXT,
+                FOREIGN KEY (`employee_id`) REFERENCES `employees`(`employee_id`) ON DELETE CASCADE,
+                FOREIGN KEY (`service_category_id`) REFERENCES `service_category_master`(`category_id`) ON DELETE CASCADE,
+                FOREIGN KEY (`service_type_id`) REFERENCES `service_type_master`(`type_id`) ON DELETE CASCADE,
+                FOREIGN KEY (`handler_id`) REFERENCES `employees`(`employee_id`) ON DELETE SET NULL,
+                `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+            
             "CREATE TABLE IF NOT EXISTS `leave_requests` (
                 `request_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `employee_id` VARCHAR(6) NOT NULL,
@@ -346,7 +343,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Certificate Requests
             "CREATE TABLE IF NOT EXISTS `certificate_requests` (
                 `request_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `employee_id` VARCHAR(6) NOT NULL,
@@ -363,7 +359,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // ID Card Requests
             "CREATE TABLE IF NOT EXISTS `id_card_requests` (
                 `request_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `employee_id` VARCHAR(6) NOT NULL,
@@ -379,7 +374,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Shuttle Bus Requests
             "CREATE TABLE IF NOT EXISTS `shuttle_bus_requests` (
                 `request_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `employee_id` VARCHAR(6) NOT NULL,
@@ -397,7 +391,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Locker Usage Requests
             "CREATE TABLE IF NOT EXISTS `locker_usage_requests` (
                 `request_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `employee_id` VARCHAR(6) NOT NULL,
@@ -416,7 +409,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Supplies/Uniform Requests
             "CREATE TABLE IF NOT EXISTS `supplies_requests` (
                 `request_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `employee_id` VARCHAR(6) NOT NULL,
@@ -433,7 +425,6 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            // Skill Test Requests
             "CREATE TABLE IF NOT EXISTS `skill_test_requests` (
                 `request_id` INT AUTO_INCREMENT PRIMARY KEY,
                 `employee_id` VARCHAR(6) NOT NULL,
@@ -448,40 +439,17 @@ class Database {
                 FOREIGN KEY (`handler_id`) REFERENCES `employees`(`employee_id`) ON DELETE SET NULL,
                 `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
-            
-            // QR Code Document Submissions
-            "CREATE TABLE IF NOT EXISTS `qr_document_submissions` (
-                `submission_id` INT AUTO_INCREMENT PRIMARY KEY,
-                `employee_id` VARCHAR(6) NOT NULL,
-                `service_category_id` INT NOT NULL,
-                `service_type_id` INT NOT NULL,
-                `document_path` VARCHAR(500),
-                `notes` TEXT,
-                `status` ENUM('New','In Progress','Complete','Cancelled') DEFAULT 'New',
-                `handler_id` VARCHAR(6),
-                `handler_remarks` TEXT,
-                `satisfaction_score` INT CHECK (`satisfaction_score` BETWEEN 1 AND 5),
-                `satisfaction_feedback` TEXT,
-                FOREIGN KEY (`employee_id`) REFERENCES `employees`(`employee_id`) ON DELETE CASCADE,
-                FOREIGN KEY (`service_category_id`) REFERENCES `service_category_master`(`category_id`) ON DELETE CASCADE,
-                FOREIGN KEY (`service_type_id`) REFERENCES `service_type_master`(`type_id`) ON DELETE CASCADE,
-                FOREIGN KEY (`handler_id`) REFERENCES `employees`(`employee_id`) ON DELETE SET NULL,
-                `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci"
         ];
     }
     
     private function seedInitialData() {
-        // Seed Roles
         $this->conn->exec("INSERT INTO `roles` (`role_name`, `role_description`) VALUES
             ('Admin', 'Full access to all system functions'),
             ('Officer', 'Can view and edit operational data'),
             ('Employee', 'Can view own data and submit requests')
         ");
         
-        // Seed Prefix Master
         $this->conn->exec("INSERT INTO `prefix_master` (`prefix_name_th`, `prefix_name_en`, `prefix_name_my`) VALUES
             ('นาย', 'Mr.', 'ကို'),
             ('นาง', 'Mrs.', 'ဒေါ်'),
@@ -489,73 +457,35 @@ class Database {
             ('ดร.', 'Dr.', 'ဒေါက်တာ')
         ");
         
-        // Seed Function Master
         $this->conn->exec("INSERT INTO `function_master` (`function_name`) VALUES
-            ('Administration'),
-            ('Operations'),
-            ('Finance'),
-            ('Human Resources'),
-            ('IT Support')
+            ('Administration'), ('Operations'), ('Finance'), ('Human Resources'), ('IT Support')
         ");
         
-        // Seed Division Master
         $this->conn->exec("INSERT INTO `division_master` (`division_name`) VALUES
-            ('Corporate Office'),
-            ('Manufacturing'),
-            ('Sales & Marketing'),
-            ('Support Services')
+            ('Corporate Office'), ('Manufacturing'), ('Sales & Marketing'), ('Support Services')
         ");
         
-        // Seed Department Master
         $this->conn->exec("INSERT INTO `department_master` (`department_name`, `division_id`) VALUES
-            ('Executive Management', 1),
-            ('Production', 2),
-            ('Quality Control', 2),
-            ('Sales', 3),
-            ('HR Department', 1)
+            ('Executive Management', 1), ('Production', 2), ('Quality Control', 2), ('Sales', 3), ('HR Department', 1)
         ");
         
-        // Seed Section Master
         $this->conn->exec("INSERT INTO `section_master` (`section_name`, `department_id`) VALUES
-            ('General Affairs', 1),
-            ('Production Line 1', 2),
-            ('QA Lab', 3),
-            ('Domestic Sales', 4),
-            ('Recruitment', 5)
+            ('General Affairs', 1), ('Production Line 1', 2), ('QA Lab', 3), ('Domestic Sales', 4), ('Recruitment', 5)
         ");
         
-        // Seed Position Master
         $this->conn->exec("INSERT INTO `position_master` (`position_name`) VALUES
-            ('Manager'),
-            ('Supervisor'),
-            ('Officer'),
-            ('Technician'),
-            ('Operator')
+            ('Manager'), ('Supervisor'), ('Officer'), ('Technician'), ('Operator')
         ");
         
-        // Seed Position Level Master (NEW)
         $this->conn->exec("INSERT INTO `position_level_master` (`level_name`) VALUES
-            ('C-Level'),
-            ('Senior Management'),
-            ('Middle Management'),
-            ('Junior Management'),
-            ('Staff Level'),
-            ('Entry Level')
+            ('C-Level'), ('Senior Management'), ('Middle Management'), ('Junior Management'), ('Staff Level'), ('Entry Level')
         ");
         
-        // Seed Education Level Master (NEW)
         $this->conn->exec("INSERT INTO `education_level_master` (`education_name`) VALUES
-            ('Doctoral Degree (Ph.D.)'),
-            ('Master Degree'),
-            ('Bachelor Degree'),
-            ('Diploma / Associate Degree'),
-            ('High School / Vocational'),
-            ('Secondary School'),
-            ('Primary School'),
-            ('Other')
+            ('Doctoral Degree (Ph.D.)'), ('Master Degree'), ('Bachelor Degree'), ('Diploma / Associate Degree'), 
+            ('High School / Vocational'), ('Secondary School'), ('Primary School'), ('Other')
         ");
         
-        // Seed Service Category Master
         $this->conn->exec("INSERT INTO `service_category_master` (`category_name_th`, `category_name_en`, `category_name_my`) VALUES
             ('แบบฟอร์มการลา', 'Leave Form', 'ခွင့်လွှာ'),
             ('ปัญหาสแกนนิ้ว', 'Finger Scan Issue', 'လက်ဗွေစကင်ပြဿနာ'),
@@ -565,36 +495,25 @@ class Database {
             ('ใบรับรอง', 'Certificate', 'လက်မှတ်')
         ");
         
-        // Seed Service Type Master
         $this->conn->exec("INSERT INTO `service_type_master` (`type_name_th`, `type_name_en`, `type_name_my`) VALUES
             ('บุคคล', 'Individual/Person', 'တစ်ဦးချင်း'),
             ('แผนก/กลุ่ม', 'Department/Group', 'ဌာန/အဖွဲ့')
         ");
         
-        // Seed Document Type Master
         $this->conn->exec("INSERT INTO `doc_type_master` (`doc_type_name`) VALUES
-            ('Company Policy'),
-            ('Employee Handbook'),
-            ('Training Materials'),
-            ('Safety Procedures'),
-            ('Forms & Templates')
+            ('Company Policy'), ('Employee Handbook'), ('Training Materials'), ('Safety Procedures'), ('Forms & Templates')
         ");
         
-        // Seed Locker Master
         $this->conn->exec("INSERT INTO `locker_master` (`locker_number`, `status`, `location`) VALUES
-            ('L001', 'Available', 'Building A - Floor 1'),
-            ('L002', 'Available', 'Building A - Floor 1'),
-            ('L003', 'Available', 'Building A - Floor 2'),
-            ('L004', 'Available', 'Building B - Floor 1'),
+            ('L001', 'Available', 'Building A - Floor 1'), ('L002', 'Available', 'Building A - Floor 1'),
+            ('L003', 'Available', 'Building A - Floor 2'), ('L004', 'Available', 'Building B - Floor 1'),
             ('L005', 'Available', 'Building B - Floor 2')
         ");
         
-        // Seed Company Info
         $this->conn->exec("INSERT INTO `company_info` (`company_name`, `phone`, `fax`, `address`, `representative_name`) VALUES
             ('Trax Inter Trade Co., Ltd.', '+66-2-xxx-xxxx', '+66-2-xxx-xxxx', '123 Business Street, Bangkok, Thailand', 'John Doe')
         ");
         
-        // Seed Sample Employees (including Admin)
         $adminPassword = password_hash('admin123', PASSWORD_DEFAULT);
         $officerPassword = password_hash('officer123', PASSWORD_DEFAULT);
         $employeePassword = password_hash('emp123', PASSWORD_DEFAULT);
@@ -610,77 +529,29 @@ class Database {
             ('000005', 1, 'ประยุทธ์ ขยัน', 'Prayut Kayan', 3, 3, 4, 4, 5, 'Entry Level', 'Male', 'Thai', '1988-12-05', 36, 'High School / Vocational', '081-555-5555', '2012-10-01', 12, 'Active', 'emp003', '$employeePassword', 3, '#8B5CF6', 'th')
         ");
         
-        // Seed Localization Master (Sample UI texts)
         $localizationData = [
-            // Login & Auth
             ['login', 'เข้าสู่ระบบ', 'Login', 'ဝင်ရောက်ရန်', 'auth'],
             ['username', 'ชื่อผู้ใช้', 'Username', 'အသုံးပြုသူအမည်', 'auth'],
             ['password', 'รหัสผ่าน', 'Password', 'လျှို့ဝှက်နံပါတ်', 'auth'],
             ['logout', 'ออกจากระบบ', 'Logout', 'ထွက်ရန်', 'auth'],
-            ['forgot_password', 'ลืมรหัสผ่าน', 'Forgot Password', 'စကားဝှက်မေ့နေပါသလား', 'auth'],
-            
-            // Dashboard
             ['dashboard', 'หน้าหลัก', 'Dashboard', 'ပင်မစာမျက်နှာ', 'menu'],
             ['welcome', 'ยินดีต้อนรับ', 'Welcome', 'ကြိုဆိုပါတယ်', 'general'],
             ['profile', 'ข้อมูลส่วนตัว', 'Profile', 'ကိုယ်ရေးအချက်အလက်', 'menu'],
-            
-            // Employee Management
             ['employees', 'พนักงาน', 'Employees', 'ဝန်ထမ်းများ', 'menu'],
-            ['employee_list', 'รายชื่อพนักงาน', 'Employee List', 'ဝန်ထမ်းစာရင်း', 'menu'],
-            ['add_employee', 'เพิ่มพนักงาน', 'Add Employee', 'ဝန်ထမ်းသစ်ထည့်ရန်', 'action'],
-            ['edit_employee', 'แก้ไขข้อมูลพนักงาน', 'Edit Employee', 'ဝန်ထမ်းအချက်อလက်ပြင်ဆင်ရန်', 'action'],
-            ['employee_id', 'รหัสพนักงาน', 'Employee ID', 'ဝန်ထမ်းနံပါတ်', 'field'],
-            ['full_name', 'ชื่อ-นามสกุล', 'Full Name', 'အမည်အပြည့်အစုံ', 'field'],
-            
-            // Requests
             ['requests', 'คำขอ', 'Requests', 'တောင်းဆိုချက်များ', 'menu'],
             ['my_requests', 'คำขอของฉัน', 'My Requests', 'ကျွန်ုပ်၏တောင်းဆိုချက်များ', 'menu'],
-            ['new_request', 'สร้างคำขอใหม่', 'New Request', 'တောင်းဆိုချက်သစ်', 'action'],
             ['leave_request', 'ขอลา', 'Leave Request', 'ခွင့်တောင်းခြင်း', 'request'],
             ['certificate_request', 'ขอใบรับรอง', 'Certificate Request', 'လက်မှတ်တောင်းခြင်း', 'request'],
             ['id_card_request', 'ขอบัตรพนักงาน', 'ID Card Request', 'မှတ်ပုံတင်တောင်းခြင်း', 'request'],
-            ['shuttle_bus_request', 'ขอรถรับส่ง', 'Shuttle Bus Request', 'ကားတောင်းခြင်း', 'request'],
             ['locker_request', 'ขอตู้ล็อกเกอร์', 'Locker Request', 'သော့ခတ်သေတ္တာတောင်းခြင်း', 'request'],
-            ['supplies_request', 'ขอเครื่องมือ/ยูนิฟอร์ม', 'Supplies/Uniform Request', 'ပစ္စည်း/ယူနီဖောင်းတောင်းခြင်း', 'request'],
-            ['skill_test_request', 'ขอทดสอบทักษะ', 'Skill Test Request', 'ကျွမ်းကျင်မှုစစ်ဆေးခြင်း', 'request'],
-            
-            // Status
             ['status', 'สถานะ', 'Status', 'အခြေအနေ', 'field'],
             ['status_new', 'ใหม่', 'New', 'အသစ်', 'status'],
             ['status_in_progress', 'กำลังดำเนินการ', 'In Progress', 'လုပ်ဆောင်နေသည်', 'status'],
             ['status_complete', 'เสร็จสิ้น', 'Complete', 'ပြီးစီးပြီ', 'status'],
-            ['status_cancelled', 'ยกเลิก', 'Cancelled', 'ပယ်ဖျက်ပြီး', 'status'],
-            
-            // Actions
             ['submit', 'ส่ง', 'Submit', 'တင်သွင်းရန်', 'action'],
             ['cancel', 'ยกเลิก', 'Cancel', 'ပယ်ဖျက်ရန်', 'action'],
-            ['edit', 'แก้ไข', 'Edit', 'ပြင်ဆင်ရန်', 'action'],
-            ['delete', 'ลบ', 'Delete', 'ဖျက်ရန်', 'action'],
-            ['view', 'ดู', 'View', 'ကြည့်ရှုရန်', 'action'],
-            ['save', 'บันทึก', 'Save', 'သိမ်းဆည်းရန်', 'action'],
-            ['update', 'อัปเดต', 'Update', 'မွမ်းမံရန်', 'action'],
-            ['search', 'ค้นหา', 'Search', 'ရှာဖွေရန်', 'action'],
-            ['export', 'ส่งออก', 'Export', 'ပို့ကုန်', 'action'],
-            ['import', 'นำเข้า', 'Import', 'သွင်းကုန်', 'action'],
-            
-            // Master Data
-            ['master_data', 'ข้อมูลหลัก', 'Master Data', 'အဓိကအချက်အလက်', 'menu'],
-            ['manage_master_data', 'จัดการข้อมูลหลัก', 'Manage Master Data', 'အဓိကအချက်အလက်စီမံခန့်ခွဲရန်', 'menu'],
-            
-            // Documents
             ['documents', 'เอกสาร', 'Documents', 'စာရွက်စာတမ်းများ', 'menu'],
-            ['upload_document', 'อัปโหลดเอกสาร', 'Upload Document', 'စာရွက်တင်ရန်', 'action'],
-            
-            // Settings
-            ['settings', 'ตั้งค่า', 'Settings', 'ချိန်ညှိမှုများ', 'menu'],
-            ['theme_color', 'สีธีม', 'Theme Color', 'အရောင်ပုံစံ', 'setting'],
-            ['language', 'ภาษา', 'Language', 'ဘာသာစကား', 'setting'],
-            
-            // Messages
-            ['success', 'สำเร็จ', 'Success', 'အောင်မြင်ပါသည်', 'message'],
-            ['error', 'ข้อผิดพลาด', 'Error', 'အမှား', 'message'],
-            ['confirm_delete', 'คุณแน่ใจหรือไม่ที่จะลบข้อมูลนี้', 'Are you sure you want to delete this?', 'ဤအချက်အလက်ကိုဖျက်လိုပါသလား', 'message'],
-            ['no_data', 'ไม่มีข้อมูล', 'No data available', 'အချက်အလက်မရှိပါ', 'message']
+            ['settings', 'ตั้งค่า', 'Settings', 'ချိန်ညှိမှုများ', 'menu']
         ];
         
         $stmt = $this->conn->prepare("INSERT INTO `localization_master` (`key_id`, `th_text`, `en_text`, `my_text`, `category`) VALUES (?, ?, ?, ?, ?)");
@@ -691,11 +562,9 @@ class Database {
     
     public function query($sql, $params = []) {
         try {
-            // Ensure we're using the correct database before any query
             if ($this->databaseExists()) {
                 $this->conn->exec("USE `" . DB_NAME . "`");
             }
-            
             $stmt = $this->conn->prepare($sql);
             $stmt->execute($params);
             return $stmt;
