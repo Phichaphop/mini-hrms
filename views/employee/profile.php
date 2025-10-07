@@ -111,10 +111,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             
             <div class="flex gap-3 pt-4 border-t">
-                <button type="submit" class="flex-1 theme-bg text-white py-3 rounded-lg hover:opacity-90 transition font-semibold">
+                <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 transition font-semibold shadow-lg">
                     Save Changes
                 </button>
-                <a href="<?php echo BASE_URL; ?>/views/dashboard.php" class="flex-1 bg-gray-500 text-white py-3 rounded-lg hover:bg-gray-600 transition font-semibold text-center">
+                <a href="<?php echo BASE_URL; ?>/views/dashboard.php" class="w-full bg-gray-500 text-white py-3 rounded-lg hover:bg-gray-600 transition font-semibold text-center">
                     Cancel
                 </a>
             </div>

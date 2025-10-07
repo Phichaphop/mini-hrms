@@ -62,3 +62,65 @@ hook.js:608 ❌ Error: SyntaxError: Unexpected token '<', "<br />
 8. เวลาขอบริษัทการต่างๆ ข้อมูล Employee Information. ของ role employee and officer input "Position" & "Department" ขึ่น "N/A"
 
 9. เพิ่ม หลังบ้าน ระบบ บริษัทจัดการตู้ล็อกเกอร์ให้ด้วย เพิ่มลบแก้ไข
+
+10.สำคัญมาก เพิ่มให้ต้องให้คะแนน คำขอก่อนหน้าก่อนถึงจะขอคำขอใหม่ได้ ประมาณว่า ถ้าจะสร้างคำขอใหม่ ก็จะแจ้งเตือน popup ว่าต้องให้คะแนนคำขอก่อนหน้าก่อนแล้วก็จะปรากฏ pupup ให้คะแนนdก่อนถึงจะสร้าคำขอใหม่ได้
+
+-------------------------------------------------------------------------------
+
+1. แก้ไข employee_edit.php ให่เหมือน employee_add.php เช่น พวก Position Level และ อื่นๆ
+
+2. แก้ไข employee_view Address แสดง N/A
+
+3. แก้ไข เอา Theme Color ออกจาก employee_view.php
+
+4. แก้ไขปุ่ม Submit สีกลืนไปกับพื้นหลัง ในฟอร์มต่างๆ 
+
+5. แก้พวกตัวเลือกใน dorpdwon มีแค่ภาษาอังกฤษ ให้มีแสดง ภาษา ตามที่ ผู้ใช้เลือกได้ไหม รวมถึง dorpdwon อื่นๆ ด้วย
+
+6. แก้ Certificate Request ให้เลือกได้หลาย Certificate เช่น รับรองการทำงาน รับรองเงินเดือน สลิปเงินเดือนย้อนหลัง
+
+7. แก้ไข ข้อความ "Welcome, Somchai Jaidee! Employee ID: 000001 | N/A" สีกลืนไปกับพื้นหลัง และ แก้ N/A
+
+-------------------------------------------------------------------------------
+
+1. ดูไฟล์ทั้งหมดใน github ของฉันใหม่ เพราะฉันอัพเดตไปเยอะมาก และเปลี่ยนชื่อระบบจาก Mini HRMS เป็น HR Service
+
+2. แก้เพิ่มให้ Operation, Labour Cost, Hiring Type, Customer Zone, Contribution Level เป็นการเลือก dorpdwon เหมือนคอลัมอื่นๆ และส้งโค้ดที่สมบูณณ์ของทุกหน้าที่มีการแก้ไขมาด้วย อย่าลืมเพิ่มโค้ดสร้างตารางสำหรับรายการพวกนี้ด้วย และ Labour Cost ไม่ใช่จำนวนเงินแต่เป็นการ แบ่งกลุ่ม Cost เช่น Direct Indirect Admin Suport Marketing
+
+3. แก้พวกตัวเลือกใน dorpdwon มีแค่ภาษาอังกฤษ ให้มีแสดง ภาษา ตามที่ ผู้ใช้เลือก เช่น Leave Typy, Reason for Request
+
+4. แก้ไขให้เก็บ Employee ID ได้ 8 ตัว ตัวอย่างรหัสพนักงานบริษัทฉัน "90681322"
+
+5. แก้ไข หน้า profile.php ให้แสดง 3 ภาษา เหมือน หน้าอื่นๆ และปรับ UI 
+
+6. แก้ไข หน้า employees.php ให้แสดง 3 ภาษา เหมือน หน้าอื่นๆ และปรับ UI 
+
+7. แก้ไข หน้า employee_add.php ให้แสดง 3 ภาษา เหมือน หน้าอื่นๆ และปรับ UI
+
+8. แก้ไขให้ช่องอายุตัว และ อายุงานคำนวณอัตโนมัติทุกครั้งจากวันเกิดเป็นอายุ และปิดการแก้ไขไว้
+
+9. แก้ไข Education Level ให้แสดง 3 ภาษา
+
+10. แก้ไขให้ ช่องกรอก Username และ Password ตอนสร้าง Employee ดึงค่ามาจาก รหัสพนักงาน อัตโนมัติ แต่สามารถแก้ไขเป็นอย่างอื่นได้
+
+11. แก้ไข หน้า employee_edit.php ให้แสดง 3 ภาษา เหมือน หน้าอื่นๆ และปรับ UI
+
+12. แก้ไข หน้า employee_view.php ให้แสดง 3 ภาษา เหมือน หน้าอื่นๆ และปรับ UI
+
+13. แก้ไข หน้า document_management.php ให้แสดง 3 ภาษา เหมือน หน้าอื่นๆ และปรับ UI
+
+14. แก้ไข หน้า master_data.php ให้แสดง 3 ภาษา เหมือน หน้าอื่นๆ และปรับ UI
+
+15. แก้ไข หน้า localization.php ให้แสดง 3 ภาษา เหมือน หน้าอื่นๆ และปรับ UI
+
+16. แก้ไข หน้า settings.php ให้แสดง 3 ภาษา เหมือน หน้าอื่นๆ และปรับ
+
+17. ตรวจสอบ error และแก้ไข "Failed to submit request: Query failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_mini_hrms.leave_requests' doesn't exist"
+
+18. ตรวจสอบ error และแก้ไข "Fatal error: Uncaught Exception: Query failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_mini_hrms.leave_requests' doesn't exist in D:\Xampp\htdocs\mini-hrms\db\Database.php:652 Stack trace: #0 D:\Xampp\htdocs\mini-hrms\db\Database.php(657): Database->query('SELECT *, 'Leav...', Array) #1 D:\Xampp\htdocs\mini-hrms\views\employee\my_requests.php(16): Database->fetchAll('SELECT *, 'Leav...', Array) #2 {main} thrown in D:\Xampp\htdocs\mini-hrms\db\Database.php on line 652"
+
+19. รูปโปรไฟล์เพิ่มให้สามารถ upload ได้ ที่หน้า profile.php และ จะแสดงผลตรงรูปโปรไฟลืทุกที่ และถ้าไม่รู้จะเป็นการใช้ icon แสดงแทน
+
+20. ตรวจสอบโค้ดทุกหน้าและหา error หรือ จุดที่ควรปรับให้เหมือนกัน
+
+21. ส่งโค้ดที่สมบูรณ์ของทุกหน้าที่มีการแก้ฉันให้ฉัน ห้ามส่งเป็นแยกส่วนมา

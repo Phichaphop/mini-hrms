@@ -1,63 +1,51 @@
 <?php
 // /controllers/PreferencesHandler.php
-// Handle user preference updates - FIXED SESSION ISSUE
+// FIXED VERSION - No HTML output before JSON
 
-// CRITICAL: Start session BEFORE any output
-session_name('HRMS_SESSION'); // ใช้ชื่อเดียวกับใน AuthController
-session_start();
+// ✅ CRITICAL: No spaces or output before this line
+if (session_status() === PHP_SESSION_NONE) {
+    session_name('HRMS_SESSION');
+    session_start();
+}
+
+// ✅ Suppress ALL errors in output
+error_reporting(0);
+ini_set('display_errors', 0);
 
 require_once __DIR__ . '/../config/db_config.php';
 require_once __DIR__ . '/../db/Database.php';
 
-// Set JSON header
-header('Content-Type: application/json');
-
-// Debug logging
-function logDebug($message, $data = null) {
-    $logFile = __DIR__ . '/../logs/preferences_debug.log';
-    $logDir = dirname($logFile);
-    
-    if (!file_exists($logDir)) {
-        mkdir($logDir, 0777, true);
-    }
-    
-    $timestamp = date('[Y-m-d H:i:s]');
-    $logMessage = "$timestamp $message";
-    
-    if ($data !== null) {
-        $logMessage .= "\n" . print_r($data, true);
-    }
-    
-    file_put_contents($logFile, $logMessage . "\n", FILE_APPEND);
+// ✅ Clean output buffer
+if (ob_get_level()) {
+    ob_end_clean();
 }
 
-// Log all request data
-logDebug("=== NEW REQUEST ===");
-logDebug("POST Data:", $_POST);
-logDebug("Session Data:", $_SESSION);
-logDebug("Session ID: " . session_id());
+header('Content-Type: application/json');
 
-// Validate request method
+// Log function (file only, no output)
+function logToFile($msg) {
+    $logDir = __DIR__ . '/../logs';
+    if (!file_exists($logDir)) {
+        @mkdir($logDir, 0777, true);
+    }
+    @file_put_contents($logDir . '/prefs.log', date('[Y-m-d H:i:s] ') . $msg . "\n", FILE_APPEND);
+}
+
+logToFile("=== REQUEST START ===");
+
+// Check method
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    logDebug("ERROR: Invalid request method");
     echo json_encode(['success' => false, 'message' => 'Invalid request method']);
     exit();
 }
 
 // Check authentication
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['logged_in'])) {
-    logDebug("ERROR: Not authenticated");
-    logDebug("Session user_id: " . ($_SESSION['user_id'] ?? 'NOT SET'));
-    logDebug("Session logged_in: " . ($_SESSION['logged_in'] ?? 'NOT SET'));
-    
+if (empty($_SESSION['user_id']) || empty($_SESSION['logged_in'])) {
+    logToFile("ERROR: Not authenticated!");
     echo json_encode([
         'success' => false, 
-        'message' => 'Not authenticated. Please login again.',
-        'debug' => [
-            'session_id' => session_id(),
-            'has_user_id' => isset($_SESSION['user_id']),
-            'has_logged_in' => isset($_SESSION['logged_in'])
-        ]
+        'message' => 'Session expired. Please login again.',
+        'redirect' => true
     ]);
     exit();
 }
@@ -65,71 +53,49 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['logged_in'])) {
 $action = $_POST['action'] ?? '';
 $userId = $_SESSION['user_id'];
 
-logDebug("User ID: $userId");
-logDebug("Action: $action");
-
 try {
     $db = Database::getInstance();
     
     if ($action === 'update_language') {
         $language = $_POST['language'] ?? '';
         
-        logDebug("Updating language to: $language");
-        
-        // Validate language
         if (!in_array($language, ['th', 'en', 'my'])) {
-            throw new Exception('Invalid language: ' . $language);
+            throw new Exception('Invalid language');
         }
         
-        // Update database
         $sql = "UPDATE employees SET language_preference = ? WHERE employee_id = ?";
-        $stmt = $db->query($sql, [$language, $userId]);
+        $db->query($sql, [$language, $userId]);
         
-        // Update session
         $_SESSION['user_language'] = $language;
         
-        logDebug("✅ Language updated successfully");
+        logToFile("✅ Language updated to: $language");
         
-        echo json_encode([
-            'success' => true, 
-            'message' => 'Language updated successfully',
-            'language' => $language
-        ]);
+        echo json_encode(['success' => true, 'message' => 'Language updated']);
         
     } elseif ($action === 'update_theme') {
         $mode = $_POST['mode'] ?? '';
         
-        logDebug("Updating theme to: $mode");
-        
-        // Validate theme mode
         if (!in_array($mode, ['light', 'dark'])) {
-            throw new Exception('Invalid theme mode: ' . $mode);
+            throw new Exception('Invalid theme mode');
         }
         
-        // Update database
         $sql = "UPDATE employees SET theme_mode = ? WHERE employee_id = ?";
-        $stmt = $db->query($sql, [$mode, $userId]);
+        $db->query($sql, [$mode, $userId]);
         
-        // Update session
         $_SESSION['theme_mode'] = $mode;
         
-        logDebug("✅ Theme updated successfully");
+        logToFile("✅ Theme updated to: $mode");
         
-        echo json_encode([
-            'success' => true, 
-            'message' => 'Theme mode updated successfully',
-            'mode' => $mode
-        ]);
+        echo json_encode(['success' => true, 'message' => 'Theme updated']);
         
     } else {
-        throw new Exception('Invalid action: ' . $action);
+        throw new Exception('Invalid action');
     }
     
 } catch (Exception $e) {
-    logDebug("❌ ERROR: " . $e->getMessage());
-    echo json_encode([
-        'success' => false, 
-        'message' => $e->getMessage()
-    ]);
+    logToFile("❌ ERROR: " . $e->getMessage());
+    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
+
+exit(); // ✅ Force exit, no further output
 ?>

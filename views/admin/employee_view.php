@@ -140,7 +140,7 @@ if (!$employee) {
                             $employee['address_district'],
                             $employee['address_province']
                         ]);
-                        echo !empty($address) ? implode(', ', $address) : 'N/A';
+                        echo !empty($address) ? implode(', ', $address) : 'None';
                         ?>
                     </p>
                 </div>
@@ -184,13 +184,6 @@ if (!$employee) {
                 <div>
                     <label class="block text-sm font-medium text-gray-500">Role</label>
                     <p class="mt-1 text-gray-900"><?php echo htmlspecialchars($employee['role_name']); ?></p>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-500">Theme Color</label>
-                    <div class="mt-1 flex items-center">
-                        <div class="w-8 h-8 rounded" style="background-color: <?php echo $employee['theme_color_preference']; ?>"></div>
-                        <span class="ml-2 text-gray-900"><?php echo $employee['theme_color_preference']; ?></span>
-                    </div>
                 </div>
             </div>
         </div>

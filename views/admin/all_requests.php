@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $requestId = $_POST['request_id'] ?? '';
     $newStatus = $_POST['status'] ?? '';
     $remarks = $_POST['remarks'] ?? '';
-    
+
     $tableMap = [
         'Leave' => 'leave_requests',
         'Certificate' => 'certificate_requests',
@@ -32,16 +32,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         'Locker' => 'locker_usage_requests',
         'Supplies' => 'supplies_requests',
         'Skill Test' => 'skill_test_requests',
-        'QR Document' => 'qr_document_submissions'
+        'Document Submission' => 'document_submissions' // แก้ไขตรงนี้
     ];
-    
+
     if (isset($tableMap[$requestType])) {
         try {
             $sql = "UPDATE {$tableMap[$requestType]} 
                     SET status = ?, handler_id = ?, handler_remarks = ? 
                     WHERE request_id = ?";
             $db->query($sql, [$newStatus, $_SESSION['user_id'], $remarks, $requestId]);
-            
+
             $message = 'Request status updated successfully!';
             $messageType = 'success';
         } catch (Exception $e) {
@@ -75,27 +75,28 @@ $requestTypes = [
     'locker_usage_requests' => 'Locker',
     'supplies_requests' => 'Supplies',
     'skill_test_requests' => 'Skill Test',
-    'qr_document_submissions' => 'QR Document'
+    'document_submissions' => 'Document Submission' // เพิ่มใหม่แทน
 ];
+
 
 foreach ($requestTypes as $table => $type) {
     if (empty($filterType) || $filterType === $type) {
         $whereClause = !empty($filterStatus) ? "WHERE status = ?" : "";
         $queryParams = !empty($filterStatus) ? [$filterStatus] : [];
-        
+
         $sql = "SELECT r.*, e.full_name_en, e.employee_id as emp_id, '{$type}' as request_type 
                 FROM {$table} r 
                 LEFT JOIN employees e ON r.employee_id = e.employee_id 
                 {$whereClause}
                 ORDER BY r.created_at DESC";
-        
+
         $results = $db->fetchAll($sql, $queryParams);
         $allRequests = array_merge($allRequests, $results);
     }
 }
 
 // Sort all requests by date
-usort($allRequests, function($a, $b) {
+usort($allRequests, function ($a, $b) {
     return strtotime($b['created_at']) - strtotime($a['created_at']);
 });
 
@@ -113,7 +114,7 @@ $paginatedRequests = array_slice($allRequests, $offset, $perPage);
         <h1 class="text-2xl font-bold text-gray-800">Manage All Requests</h1>
         <p class="text-gray-600 mt-1">View and update request status</p>
     </div>
-    
+
     <?php if ($message): ?>
         <div class="mb-6 p-4 rounded-lg <?php echo $messageType === 'success' ? 'bg-green-50 border-l-4 border-green-500' : 'bg-red-50 border-l-4 border-red-500'; ?>">
             <p class="<?php echo $messageType === 'success' ? 'text-green-700' : 'text-red-700'; ?>">
@@ -121,7 +122,7 @@ $paginatedRequests = array_slice($allRequests, $offset, $perPage);
             </p>
         </div>
     <?php endif; ?>
-    
+
     <!-- Filter Section -->
     <div class="bg-white rounded-lg shadow-lg p-4 mb-6">
         <form method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -133,7 +134,7 @@ $paginatedRequests = array_slice($allRequests, $offset, $perPage);
                     </option>
                 <?php endforeach; ?>
             </select>
-            
+
             <select name="status" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                 <option value="">All Status</option>
                 <option value="New" <?php echo $filterStatus === 'New' ? 'selected' : ''; ?>>New</option>
@@ -141,13 +142,13 @@ $paginatedRequests = array_slice($allRequests, $offset, $perPage);
                 <option value="Complete" <?php echo $filterStatus === 'Complete' ? 'selected' : ''; ?>>Complete</option>
                 <option value="Cancelled" <?php echo $filterStatus === 'Cancelled' ? 'selected' : ''; ?>>Cancelled</option>
             </select>
-            
+
             <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                 Filter
             </button>
         </form>
     </div>
-    
+
     <!-- Statistics -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <div class="bg-white rounded-lg shadow p-4">
@@ -173,7 +174,7 @@ $paginatedRequests = array_slice($allRequests, $offset, $perPage);
             </div>
         </div>
     </div>
-    
+
     <!-- Requests Table -->
     <div class="bg-white rounded-lg shadow-lg overflow-hidden">
         <div class="overflow-x-auto">
@@ -210,17 +211,15 @@ $paginatedRequests = array_slice($allRequests, $offset, $perPage);
                                     <?php echo date('M d, Y H:i', strtotime($request['created_at'])); ?>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="px-3 py-1 rounded-full text-xs font-medium <?php 
-                                        echo $request['status'] === 'Complete' ? 'bg-green-100 text-green-800' : 
-                                            ($request['status'] === 'In Progress' ? 'bg-blue-100 text-blue-800' : 
-                                            ($request['status'] === 'Cancelled' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'));
-                                    ?>">
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium <?php
+                                                                                            echo $request['status'] === 'Complete' ? 'bg-green-100 text-green-800' : ($request['status'] === 'In Progress' ? 'bg-blue-100 text-blue-800' : ($request['status'] === 'Cancelled' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'));
+                                                                                            ?>">
                                         <?php echo htmlspecialchars($request['status']); ?>
                                     </span>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <button onclick="openUpdateModal('<?php echo htmlspecialchars($request['request_type']); ?>', <?php echo $request['request_id']; ?>, '<?php echo htmlspecialchars($request['status']); ?>')" 
-                                            class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                                    <button onclick="openUpdateModal('<?php echo htmlspecialchars($request['request_type']); ?>', <?php echo $request['request_id']; ?>, '<?php echo htmlspecialchars($request['status']); ?>')"
+                                        class="text-blue-600 hover:text-blue-800 text-sm font-medium">
                                         Update Status
                                     </button>
                                 </td>
@@ -230,7 +229,7 @@ $paginatedRequests = array_slice($allRequests, $offset, $perPage);
                 </tbody>
             </table>
         </div>
-        
+
         <!-- Pagination -->
         <?php if ($totalPages > 1): ?>
             <div class="bg-gray-50 px-6 py-3 border-t flex justify-between items-center">
@@ -239,20 +238,20 @@ $paginatedRequests = array_slice($allRequests, $offset, $perPage);
                 </div>
                 <div class="flex gap-2">
                     <?php if ($currentPage > 1): ?>
-                        <a href="?page=<?php echo $currentPage - 1; ?><?php echo !empty($filterStatus) ? "&status=$filterStatus" : ''; ?><?php echo !empty($filterType) ? "&type=$filterType" : ''; ?>" 
-                           class="px-3 py-1 border rounded hover:bg-gray-100">Previous</a>
+                        <a href="?page=<?php echo $currentPage - 1; ?><?php echo !empty($filterStatus) ? "&status=$filterStatus" : ''; ?><?php echo !empty($filterType) ? "&type=$filterType" : ''; ?>"
+                            class="px-3 py-1 border rounded hover:bg-gray-100">Previous</a>
                     <?php endif; ?>
-                    
+
                     <?php for ($i = max(1, $currentPage - 2); $i <= min($totalPages, $currentPage + 2); $i++): ?>
-                        <a href="?page=<?php echo $i; ?><?php echo !empty($filterStatus) ? "&status=$filterStatus" : ''; ?><?php echo !empty($filterType) ? "&type=$filterType" : ''; ?>" 
-                           class="px-3 py-1 border rounded <?php echo $i === $currentPage ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'; ?>">
+                        <a href="?page=<?php echo $i; ?><?php echo !empty($filterStatus) ? "&status=$filterStatus" : ''; ?><?php echo !empty($filterType) ? "&type=$filterType" : ''; ?>"
+                            class="px-3 py-1 border rounded <?php echo $i === $currentPage ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'; ?>">
                             <?php echo $i; ?>
                         </a>
                     <?php endfor; ?>
-                    
+
                     <?php if ($currentPage < $totalPages): ?>
-                        <a href="?page=<?php echo $currentPage + 1; ?><?php echo !empty($filterStatus) ? "&status=$filterStatus" : ''; ?><?php echo !empty($filterType) ? "&type=$filterType" : ''; ?>" 
-                           class="px-3 py-1 border rounded hover:bg-gray-100">Next</a>
+                        <a href="?page=<?php echo $currentPage + 1; ?><?php echo !empty($filterStatus) ? "&status=$filterStatus" : ''; ?><?php echo !empty($filterType) ? "&type=$filterType" : ''; ?>"
+                            class="px-3 py-1 border rounded hover:bg-gray-100">Next</a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -268,7 +267,7 @@ $paginatedRequests = array_slice($allRequests, $offset, $perPage);
             <input type="hidden" name="action" value="update_status">
             <input type="hidden" name="request_type" id="modal_request_type">
             <input type="hidden" name="request_id" id="modal_request_id">
-            
+
             <div class="mb-4">
                 <label for="modal_status" class="block text-sm font-medium text-gray-700 mb-2">Status</label>
                 <select id="modal_status" name="status" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
@@ -278,12 +277,12 @@ $paginatedRequests = array_slice($allRequests, $offset, $perPage);
                     <option value="Cancelled">Cancelled</option>
                 </select>
             </div>
-            
+
             <div class="mb-4">
                 <label for="modal_remarks" class="block text-sm font-medium text-gray-700 mb-2">Remarks</label>
                 <textarea id="modal_remarks" name="remarks" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"></textarea>
             </div>
-            
+
             <div class="flex gap-3">
                 <button type="submit" class="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
                     Update
@@ -303,11 +302,11 @@ $paginatedRequests = array_slice($allRequests, $offset, $perPage);
         document.getElementById('modal_status').value = currentStatus;
         document.getElementById('updateModal').classList.remove('hidden');
     }
-    
+
     function closeUpdateModal() {
         document.getElementById('updateModal').classList.add('hidden');
     }
-    
+
     // Close modal when clicking outside
     document.getElementById('updateModal').addEventListener('click', function(e) {
         if (e.target === this) {

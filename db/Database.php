@@ -325,24 +325,22 @@ class Database {
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
-            "CREATE TABLE IF NOT EXISTS `leave_requests` (
-                `request_id` INT AUTO_INCREMENT PRIMARY KEY,
-                `employee_id` VARCHAR(6) NOT NULL,
-                `leave_type` VARCHAR(50) NOT NULL,
-                `start_date` DATE NOT NULL,
-                `end_date` DATE NOT NULL,
-                `total_days` INT NOT NULL,
-                `reason` TEXT,
-                `status` ENUM('New','In Progress','Complete','Cancelled') DEFAULT 'New',
-                `handler_id` VARCHAR(6),
-                `handler_remarks` TEXT,
-                `satisfaction_score` INT CHECK (`satisfaction_score` BETWEEN 1 AND 5),
-                `satisfaction_feedback` TEXT,
-                FOREIGN KEY (`employee_id`) REFERENCES `employees`(`employee_id`) ON DELETE CASCADE,
-                FOREIGN KEY (`handler_id`) REFERENCES `employees`(`employee_id`) ON DELETE SET NULL,
-                `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+            "CREATE TABLE IF NOT EXISTS `certificate_requests` (
+    `request_id` INT AUTO_INCREMENT PRIMARY KEY,
+    `employee_id` VARCHAR(6) NOT NULL,
+    `certificate_types` TEXT,
+    `certificate_no` VARCHAR(100),
+    `purpose` TEXT,
+    `status` ENUM('New','In Progress','Complete','Cancelled') DEFAULT 'New',
+    `handler_id` VARCHAR(6),
+    `handler_remarks` TEXT,
+    `satisfaction_score` INT CHECK (`satisfaction_score` BETWEEN 1 AND 5),
+    `satisfaction_feedback` TEXT,
+    FOREIGN KEY (`employee_id`) REFERENCES `employees`(`employee_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`handler_id`) REFERENCES `employees`(`employee_id`) ON DELETE SET NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
             
             "CREATE TABLE IF NOT EXISTS `certificate_requests` (
                 `request_id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -440,11 +438,84 @@ class Database {
                 FOREIGN KEY (`handler_id`) REFERENCES `employees`(`employee_id`) ON DELETE SET NULL,
                 `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci"
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+
+            "CREATE TABLE IF NOT EXISTS `operation_master` (
+            `operation_id` INT AUTO_INCREMENT PRIMARY KEY,
+            `operation_name` VARCHAR(100) NOT NULL,
+            `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        
+        "CREATE TABLE IF NOT EXISTS `hiring_type_master` (
+            `hiring_type_id` INT AUTO_INCREMENT PRIMARY KEY,
+            `hiring_type_name_th` VARCHAR(100),
+            `hiring_type_name_en` VARCHAR(100),
+            `hiring_type_name_my` VARCHAR(100),
+            `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        
+        "CREATE TABLE IF NOT EXISTS `customer_zone_master` (
+            `zone_id` INT AUTO_INCREMENT PRIMARY KEY,
+            `zone_name` VARCHAR(100) NOT NULL,
+            `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        
+        "CREATE TABLE IF NOT EXISTS `contribution_level_master` (
+            `level_id` INT AUTO_INCREMENT PRIMARY KEY,
+            `level_name` VARCHAR(100) NOT NULL,
+            `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        
+        "CREATE TABLE IF NOT EXISTS `leave_type_master` (
+            `leave_type_id` INT AUTO_INCREMENT PRIMARY KEY,
+            `leave_type_name_th` VARCHAR(100),
+            `leave_type_name_en` VARCHAR(100),
+            `leave_type_name_my` VARCHAR(100),
+            `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci"
         ];
     }
     
     private function seedInitialData() {
+
+    // Operation Master
+    $this->conn->exec("INSERT INTO `operation_master` (`operation_name`) VALUES
+        ('Production'), ('Quality Control'), ('Logistics'), ('Maintenance'), ('Administration')
+    ");
+    
+    // Hiring Type Master
+    $this->conn->exec("INSERT INTO `hiring_type_master` (`hiring_type_name_th`, `hiring_type_name_en`, `hiring_type_name_my`) VALUES
+        ('พนักงานประจำ', 'Permanent', 'အမြဲတမ်း'),
+        ('พนักงานชั่วคราว', 'Temporary', 'ယာယီ'),
+        ('พนักงานสัญญาจ้าง', 'Contract', 'စာချုပ်'),
+        ('พนักงานพาร์ทไทม์', 'Part-Time', 'အချိန်ပိုင်း')
+    ");
+    
+    // Customer Zone Master
+    $this->conn->exec("INSERT INTO `customer_zone_master` (`zone_name`) VALUES
+        ('Zone A'), ('Zone B'), ('Zone C'), ('Zone D'), ('International')
+    ");
+    
+    // Contribution Level Master
+    $this->conn->exec("INSERT INTO `contribution_level_master` (`level_name`) VALUES
+        ('High'), ('Medium'), ('Low'), ('Standard')
+    ");
+    
+    // Leave Type Master
+    $this->conn->exec("INSERT INTO `leave_type_master` (`leave_type_name_th`, `leave_type_name_en`, `leave_type_name_my`) VALUES
+        ('ลาป่วย', 'Sick Leave', 'နာမကျန်းခွင့်'),
+        ('ลากิจ', 'Personal Leave', 'ကိုယ်ရေးကိုယ်တာခွင့်'),
+        ('ลาพักร้อน', 'Annual Leave', 'နှစ်ပတ်လည်ခွင့်'),
+        ('ลาคลอด', 'Maternity Leave', 'မီးဖွားခွင့်'),
+        ('ลาบวช', 'Ordination Leave', 'သံဃာဝင်ခွင့်'),
+        ('ลาทหาร', 'Military Leave', 'စစ်မှုထမ်းခွင့်')
+    ");
+
         $this->conn->exec("INSERT INTO `roles` (`role_name`, `role_description`) VALUES
             ('Admin', 'Full access to all system functions'),
             ('Officer', 'Can view and edit operational data'),
