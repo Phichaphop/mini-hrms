@@ -1,6 +1,5 @@
 <?php
-// /views/admin/employee_add.php
-// Add New Employee - COMPLETE VERSION with All Dropdowns
+// /views/admin/employee_add.php - UPDATED VERSION
 
 require_once __DIR__ . '/../../config/db_config.php';
 require_once __DIR__ . '/../../db/Database.php';
@@ -33,18 +32,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'division_id' => $_POST['division_id'] ?: null,
             'department_id' => $_POST['department_id'] ?: null,
             'section_id' => $_POST['section_id'] ?: null,
-            'operation' => $_POST['operation'],
+            'operation_id' => $_POST['operation_id'] ?: null,
             'position_id' => $_POST['position_id'] ?: null,
             'position_level' => $_POST['position_level'],
-            'labour_cost' => $_POST['labour_cost'] ?: null,
-            'hiring_type' => $_POST['hiring_type'],
-            'customer_zone' => $_POST['customer_zone'],
-            'contribution_level' => $_POST['contribution_level'],
+            'labour_cost_id' => $_POST['labour_cost_id'] ?: null,
+            'hiring_type_id' => $_POST['hiring_type_id'] ?: null,
+            'customer_zone_id' => $_POST['customer_zone_id'] ?: null,
+            'contribution_level_id' => $_POST['contribution_level_id'] ?: null,
             'sex' => $_POST['sex'],
             'nationality' => $_POST['nationality'],
             'birthday' => $_POST['birthday'] ?: null,
             'age' => $_POST['age'] ?: null,
-            'education_level' => $_POST['education_level'],
+            'education_level_id' => $_POST['education_level_id'] ?: null,
             'phone_no' => $_POST['phone_no'],
             'address_village' => $_POST['address_village'],
             'address_subdistrict' => $_POST['address_subdistrict'],
@@ -104,8 +103,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="employee_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Employee ID <span class="text-red-500">*</span>
                     </label>
-                    <input type="text" id="employee_id" name="employee_id" required maxlength="6" pattern="[0-9]{6}" placeholder="000001" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">6 digits number</p>
+                    <input type="text" 
+                           id="employee_id" 
+                           name="employee_id" 
+                           required 
+                           maxlength="8" 
+                           pattern="[0-9]{8}" 
+                           placeholder="90000001" 
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">8 digits number</p>
                 </div>
                 
                 <div>
@@ -147,13 +153,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 
                 <div>
-                    <label for="age" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Age</label>
-                    <input type="number" id="age" name="age" min="15" max="100" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <label for="age" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Age (Auto)</label>
+                    <input type="number" 
+                           id="age" 
+                           name="age" 
+                           readonly 
+                           class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Auto-calculated from birthday</p>
                 </div>
                 
                 <div>
-                    <label for="education_level" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Education Level</label>
-                    <select id="education_level" name="education_level" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <label for="education_level_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Education Level</label>
+                    <select id="education_level_id" name="education_level_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                         <?php echo getEducationLevelOptions($db); ?>
                     </select>
                 </div>
@@ -228,8 +239,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 
                 <div>
-                    <label for="operation" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Operation</label>
-                    <select id="operation" name="operation" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <label for="operation_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Operation</label>
+                    <select id="operation_id" name="operation_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                         <?php echo getOperationOptions($db); ?>
                     </select>
                 </div>
@@ -249,27 +260,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 
                 <div>
-                    <label for="labour_cost" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Labour Cost (THB)</label>
-                    <input type="number" step="0.01" id="labour_cost" name="labour_cost" placeholder="0.00" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <label for="labour_cost_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Labour Cost Category</label>
+                    <select id="labour_cost_id" name="labour_cost_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                        <?php echo getLabourCostOptions($db); ?>
+                    </select>
                 </div>
                 
                 <div>
-                    <label for="hiring_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Hiring Type</label>
-                    <select id="hiring_type" name="hiring_type" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <label for="hiring_type_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Hiring Type</label>
+                    <select id="hiring_type_id" name="hiring_type_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                         <?php echo getHiringTypeOptions($db); ?>
                     </select>
                 </div>
                 
                 <div>
-                    <label for="customer_zone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Customer Zone</label>
-                    <select id="customer_zone" name="customer_zone" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <label for="customer_zone_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Customer Zone</label>
+                    <select id="customer_zone_id" name="customer_zone_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                         <?php echo getCustomerZoneOptions($db); ?>
                     </select>
                 </div>
                 
                 <div>
-                    <label for="contribution_level" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Contribution Level</label>
-                    <select id="contribution_level" name="contribution_level" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <label for="contribution_level_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Contribution Level</label>
+                    <select id="contribution_level_id" name="contribution_level_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                         <?php echo getContributionLevelOptions($db); ?>
                     </select>
                 </div>

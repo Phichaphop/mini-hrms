@@ -4,16 +4,10 @@
 
 require_once __DIR__ . '/../db/Localization.php';
 
-/**
- * Get current user language
- */
 function getCurrentLanguage() {
     return $_SESSION['user_language'] ?? 'en';
 }
 
-/**
- * Get prefix options
- */
 function getPrefixOptions($db, $selectedId = null) {
     $lang = getCurrentLanguage();
     $prefixes = $db->fetchAll("SELECT * FROM prefix_master ORDER BY prefix_id");
@@ -28,15 +22,33 @@ function getPrefixOptions($db, $selectedId = null) {
 }
 
 /**
- * Get operation options
+ * Get operation options with multilingual support
  */
-function getOperationOptions($db, $selectedValue = null) {
-    $operations = $db->fetchAll("SELECT * FROM operation_master ORDER BY operation_name");
+function getOperationOptions($db, $selectedId = null) {
+    $lang = getCurrentLanguage();
+    $operations = $db->fetchAll("SELECT * FROM operation_master ORDER BY operation_id");
     
     $html = '<option value="">Select Operation</option>';
     foreach ($operations as $operation) {
-        $selected = ($selectedValue === $operation['operation_name']) ? 'selected' : '';
-        $html .= "<option value='" . htmlspecialchars($operation['operation_name']) . "' {$selected}>" . htmlspecialchars($operation['operation_name']) . "</option>";
+        $selected = ($selectedId == $operation['operation_id']) ? 'selected' : '';
+        $name = $operation["operation_name_{$lang}"] ?? $operation['operation_name_en'];
+        $html .= "<option value='{$operation['operation_id']}' {$selected}>" . htmlspecialchars($name) . "</option>";
+    }
+    return $html;
+}
+
+/**
+ * Get labour cost options with multilingual support
+ */
+function getLabourCostOptions($db, $selectedId = null) {
+    $lang = getCurrentLanguage();
+    $costs = $db->fetchAll("SELECT * FROM labour_cost_master ORDER BY cost_id");
+    
+    $html = '<option value="">Select Labour Cost</option>';
+    foreach ($costs as $cost) {
+        $selected = ($selectedId == $cost['cost_id']) ? 'selected' : '';
+        $name = $cost["cost_name_{$lang}"] ?? $cost['cost_name_en'];
+        $html .= "<option value='{$cost['cost_id']}' {$selected}>" . htmlspecialchars($name) . "</option>";
     }
     return $html;
 }
@@ -44,44 +56,47 @@ function getOperationOptions($db, $selectedValue = null) {
 /**
  * Get hiring type options with multilingual support
  */
-function getHiringTypeOptions($db, $selectedValue = null) {
+function getHiringTypeOptions($db, $selectedId = null) {
     $lang = getCurrentLanguage();
     $types = $db->fetchAll("SELECT * FROM hiring_type_master ORDER BY hiring_type_id");
     
     $html = '<option value="">Select Hiring Type</option>';
     foreach ($types as $type) {
+        $selected = ($selectedId == $type['hiring_type_id']) ? 'selected' : '';
         $name = $type["hiring_type_name_{$lang}"] ?? $type['hiring_type_name_en'];
-        $value = $type['hiring_type_name_en']; // Store English name as value
-        $selected = ($selectedValue === $value) ? 'selected' : '';
-        $html .= "<option value='" . htmlspecialchars($value) . "' {$selected}>" . htmlspecialchars($name) . "</option>";
+        $html .= "<option value='{$type['hiring_type_id']}' {$selected}>" . htmlspecialchars($name) . "</option>";
     }
     return $html;
 }
 
 /**
- * Get customer zone options
+ * Get customer zone options with multilingual support
  */
-function getCustomerZoneOptions($db, $selectedValue = null) {
-    $zones = $db->fetchAll("SELECT * FROM customer_zone_master ORDER BY zone_name");
+function getCustomerZoneOptions($db, $selectedId = null) {
+    $lang = getCurrentLanguage();
+    $zones = $db->fetchAll("SELECT * FROM customer_zone_master ORDER BY zone_id");
     
     $html = '<option value="">Select Customer Zone</option>';
     foreach ($zones as $zone) {
-        $selected = ($selectedValue === $zone['zone_name']) ? 'selected' : '';
-        $html .= "<option value='" . htmlspecialchars($zone['zone_name']) . "' {$selected}>" . htmlspecialchars($zone['zone_name']) . "</option>";
+        $selected = ($selectedId == $zone['zone_id']) ? 'selected' : '';
+        $name = $zone["zone_name_{$lang}"] ?? $zone['zone_name_en'];
+        $html .= "<option value='{$zone['zone_id']}' {$selected}>" . htmlspecialchars($name) . "</option>";
     }
     return $html;
 }
 
 /**
- * Get contribution level options
+ * Get contribution level options with multilingual support
  */
-function getContributionLevelOptions($db, $selectedValue = null) {
-    $levels = $db->fetchAll("SELECT * FROM contribution_level_master ORDER BY level_name");
+function getContributionLevelOptions($db, $selectedId = null) {
+    $lang = getCurrentLanguage();
+    $levels = $db->fetchAll("SELECT * FROM contribution_level_master ORDER BY level_id");
     
     $html = '<option value="">Select Contribution Level</option>';
     foreach ($levels as $level) {
-        $selected = ($selectedValue === $level['level_name']) ? 'selected' : '';
-        $html .= "<option value='" . htmlspecialchars($level['level_name']) . "' {$selected}>" . htmlspecialchars($level['level_name']) . "</option>";
+        $selected = ($selectedId == $level['level_id']) ? 'selected' : '';
+        $name = $level["level_name_{$lang}"] ?? $level['level_name_en'];
+        $html .= "<option value='{$level['level_id']}' {$selected}>" . htmlspecialchars($name) . "</option>";
     }
     return $html;
 }
@@ -89,16 +104,15 @@ function getContributionLevelOptions($db, $selectedValue = null) {
 /**
  * Get leave type options with multilingual support
  */
-function getLeaveTypeOptions($db, $selectedValue = null) {
+function getLeaveTypeOptions($db, $selectedId = null) {
     $lang = getCurrentLanguage();
     $types = $db->fetchAll("SELECT * FROM leave_type_master ORDER BY leave_type_id");
     
     $html = '<option value="">Select Leave Type</option>';
     foreach ($types as $type) {
+        $selected = ($selectedId == $type['leave_type_id']) ? 'selected' : '';
         $name = $type["leave_type_name_{$lang}"] ?? $type['leave_type_name_en'];
-        $value = $type['leave_type_name_en']; // Store English name as value
-        $selected = ($selectedValue === $value) ? 'selected' : '';
-        $html .= "<option value='" . htmlspecialchars($value) . "' {$selected}>" . htmlspecialchars($name) . "</option>";
+        $html .= "<option value='{$type['leave_type_id']}' {$selected}>" . htmlspecialchars($name) . "</option>";
     }
     return $html;
 }
