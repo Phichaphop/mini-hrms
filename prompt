@@ -87,9 +87,15 @@ hook.js:608 ❌ Error: SyntaxError: Unexpected token '<', "<br />
 
 2. แก้เพิ่มให้ Operation, Labour Cost, Hiring Type, Customer Zone, Contribution Level เป็นการเลือก dorpdwon เหมือนคอลัมอื่นๆ และส้งโค้ดที่สมบูณณ์ของทุกหน้าที่มีการแก้ไขมาด้วย อย่าลืมเพิ่มโค้ดสร้างตารางสำหรับรายการพวกนี้ด้วย และ Labour Cost ไม่ใช่จำนวนเงินแต่เป็นการ แบ่งกลุ่ม Cost เช่น Direct Indirect Admin Suport Marketing
 
-3. แก้พวกตัวเลือกใน dorpdwon มีแค่ภาษาอังกฤษ ให้มีแสดง ภาษา ตามที่ ผู้ใช้เลือก เช่น Leave Typy, Reason for Request
-
 4. แก้ไขให้เก็บ Employee ID ได้ 8 ตัว ตัวอย่างรหัสพนักงานบริษัทฉัน "90681322"
+
+20. ตรวจสอบโค้ดทุกหน้าและหา error หรือ จุดที่ควรปรับให้เหมือนกัน
+
+21. ส่งโค้ดที่สมบูรณ์ของทุกหน้าที่มีการแก้ฉันให้ฉัน ห้ามส่งเป็นแยกส่วนมา
+
+-------------------------------------------------------------------------------
+
+3. แก้พวกตัวเลือกใน dorpdwon มีแค่ภาษาอังกฤษ ให้มีแสดง ภาษา ตามที่ ผู้ใช้เลือก เช่น Leave Typy, Reason for Request
 
 5. แก้ไข หน้า profile.php ให้แสดง 3 ภาษา เหมือน หน้าอื่นๆ และปรับ UI 
 
@@ -120,9 +126,5 @@ hook.js:608 ❌ Error: SyntaxError: Unexpected token '<', "<br />
 18. ตรวจสอบ error และแก้ไข "Fatal error: Uncaught Exception: Query failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_mini_hrms.leave_requests' doesn't exist in D:\Xampp\htdocs\mini-hrms\db\Database.php:652 Stack trace: #0 D:\Xampp\htdocs\mini-hrms\db\Database.php(657): Database->query('SELECT *, 'Leav...', Array) #1 D:\Xampp\htdocs\mini-hrms\views\employee\my_requests.php(16): Database->fetchAll('SELECT *, 'Leav...', Array) #2 {main} thrown in D:\Xampp\htdocs\mini-hrms\db\Database.php on line 652"
 
 19. รูปโปรไฟล์เพิ่มให้สามารถ upload ได้ ที่หน้า profile.php และ จะแสดงผลตรงรูปโปรไฟลืทุกที่ และถ้าไม่รู้จะเป็นการใช้ icon แสดงแทน
-
-20. ตรวจสอบโค้ดทุกหน้าและหา error หรือ จุดที่ควรปรับให้เหมือนกัน
-
-21. ส่งโค้ดที่สมบูรณ์ของทุกหน้าที่มีการแก้ฉันให้ฉัน ห้ามส่งเป็นแยกส่วนมา
 
 22. แก้ไข การออกแบบหน้า login เป็น ธีมมินิมิลขาวฟ้าหรือน้ำเงิน

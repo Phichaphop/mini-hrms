@@ -1,6 +1,6 @@
 <?php
-// /views/qr_form/document_submit.php
-// Document Submission Form (No login required)
+// /views/qr_form/document_submit.php - UPDATED VERSION
+// HR Service Form (No login required)
 
 require_once __DIR__ . '/../../config/db_config.php';
 require_once __DIR__ . '/../../db/Database.php';
@@ -18,70 +18,79 @@ if (!in_array($lang, ['th', 'en', 'my'])) {
 // Language texts
 $texts = [
     'th' => [
-        'title' => 'ระบบส่งเอกสาร',
+        'title' => 'ระบบบริการ HR',
         'subtitle' => 'กรุณากรอกข้อมูลให้ครบถ้วน',
         'employee_id' => 'รหัสพนักงาน',
-        'employee_id_placeholder' => 'พิมพ์รหัสพนักงาน เช่น 000001',
+        'employee_id_placeholder' => 'พิมพ์เพื่อค้นหารหัสพนักงาน',
+        'search' => 'ค้นหา',
         'employee_info' => 'ข้อมูลพนักงาน',
         'full_name' => 'ชื่อ-นามสกุล',
         'position' => 'ตำแหน่ง',
-        'level' => 'ระดับ',
-        'section' => 'แผนก',
-        'service_category' => 'ประเภทเอกสาร',
+        'department' => 'แผนก',
+        'service_category' => 'ประเภทบริการ',
         'service_type' => 'ประเภทการส่ง',
-        'document' => 'อัปโหลดเอกสาร (ถ้าม)',
+        'document' => 'อัปโหลดเอกสาร (ถ้ามี)',
         'notes' => 'หมายเหตุ',
         'notes_placeholder' => 'กรอกข้อมูลเพิ่มเติม (ถ้ามี)',
-        'submit' => 'ส่งเอกสาร',
-        'back' => 'กลับหน้าแรก',
-        'success' => 'ส่งเอกสารสำเร็จ!',
-        'error' => 'กรุณากรอกข้อมูลให้ครบถ้วน',
-        'select_category' => 'เลือกประเภทเอกสาร',
-        'select_type' => 'เลือกประเภทการส่ง'
+        'submit' => 'ส่งคำขอ',
+        'clear' => 'ล้างข้อมูล',
+        'success' => '✅ ส่งคำขอสำเร็จ!',
+        'error' => '❌ กรุณากรอกข้อมูลให้ครบถ้วน',
+        'select_category' => 'เลือกประเภทบริการ',
+        'select_type' => 'เลือกประเภทการส่ง',
+        'employee_not_found' => 'ไม่พบข้อมูลพนักงาน',
+        'required_fields' => 'กรุณากรอกข้อมูลที่มีเครื่องหมาย * ให้ครบถ้วน',
+        'invalid_employee' => 'กรุณาเลือกรหัสพนักงานจากรายการที่แสดง'
     ],
     'en' => [
-        'title' => 'Document Submission',
-        'subtitle' => 'Please fill all information',
+        'title' => 'HR Service',
+        'subtitle' => 'Please fill in all required information',
         'employee_id' => 'Employee ID',
-        'employee_id_placeholder' => 'Type Employee ID e.g. 000001',
+        'employee_id_placeholder' => 'Type to search employee ID',
+        'search' => 'Search',
         'employee_info' => 'Employee Information',
         'full_name' => 'Full Name',
         'position' => 'Position',
-        'level' => 'Level',
-        'section' => 'Section',
-        'service_category' => 'Document Category',
+        'department' => 'Department',
+        'service_category' => 'Service Category',
         'service_type' => 'Submission Type',
         'document' => 'Upload Document (Optional)',
         'notes' => 'Notes',
         'notes_placeholder' => 'Additional information (Optional)',
-        'submit' => 'Submit Document',
-        'back' => 'Back to Home',
-        'success' => 'Document submitted successfully!',
-        'error' => 'Please fill all required fields',
-        'select_category' => 'Select Document Category',
-        'select_type' => 'Select Submission Type'
+        'submit' => 'Submit Request',
+        'clear' => 'Clear Form',
+        'success' => '✅ Request submitted successfully!',
+        'error' => '❌ Please fill in all required fields',
+        'select_category' => 'Select Service Category',
+        'select_type' => 'Select Submission Type',
+        'employee_not_found' => 'Employee not found',
+        'required_fields' => 'Please fill in all fields marked with *',
+        'invalid_employee' => 'Please select employee ID from the list'
     ],
     'my' => [
-        'title' => 'စာရွက်စာတမ်းတင်သွင်းခြင်း',
-        'subtitle' => 'ကျေးဇူးပြု၍ အချက်အလက်အားလုံးဖြည့်ပါ',
+        'title' => 'HR ဝန်ဆောင်မှု',
+        'subtitle' => 'ကျေးဇူးပြု၍ လိုအပ်သောအချက်အလက်အားလုံးဖြည့်ပါ',
         'employee_id' => 'ဝန်ထမ်းနံပါတ်',
-        'employee_id_placeholder' => 'ဝန်ထမ်းနံပါတ်ရိုက်ထည့်ပါ ဥပမာ 000001',
+        'employee_id_placeholder' => 'ဝန်ထမ်းနံပါတ်ရှာရန်ရိုက်ပါ',
+        'search' => 'ရှာဖွေမည်',
         'employee_info' => 'ဝန်ထမ်းအချက်အလက်',
         'full_name' => 'အမည်အပြည့်အစုံ',
         'position' => 'ရာထူး',
-        'level' => 'အဆင့်',
-        'section' => 'ဌာန',
-        'service_category' => 'စာရွက်အမျိုးအစား',
+        'department' => 'ဌာန',
+        'service_category' => 'ဝန်ဆောင်မှုအမျိုးအစား',
         'service_type' => 'တင်သွင်းမှုအမျိုးအစား',
         'document' => 'စာရွက်တင်ရန် (ရွေးချယ်)',
         'notes' => 'မှတ်ချက်',
         'notes_placeholder' => 'ထပ်လောင်းအချက်အလက် (ရွေးချယ်)',
-        'submit' => 'စာရွက်တင်သွင်းမည်',
-        'back' => 'ပင်မစာမျက်နှာ',
-        'success' => 'စာရွက်တင်သွင်းပြီးပါပြီ!',
-        'error' => 'လိုအပ်သောအချက်အလက်များဖြည့်ပါ',
-        'select_category' => 'စာရွက်အမျိုးအစားရွေးပါ',
-        'select_type' => 'တင်သွင်းမှုအမျိုးအစားရွေးပါ'
+        'submit' => 'တောင်းဆိုချက်တင်သွင်းမည်',
+        'clear' => 'ရှင်းလင်းမည်',
+        'success' => '✅ တောင်းဆိုချက်တင်သွင်းပြီးပါပြီ!',
+        'error' => '❌ လိုအပ်သောအချက်အလက်များဖြည့်ပါ',
+        'select_category' => 'ဝန်ဆောင်မှုအမျိုးအစားရွေးပါ',
+        'select_type' => 'တင်သွင်းမှုအမျိုးအစားရွေးပါ',
+        'employee_not_found' => 'ဝန်ထမ်းမတွေ့ရှိပါ',
+        'required_fields' => 'ကျေးဇူးပြု၍ * အမှတ်အသားပါသောနေရာများဖြည့်ပါ',
+        'invalid_employee' => 'စာရင်းမှဝန်ထမ်းနံပါတ်ရွေးပါ'
     ]
 ];
 
@@ -90,6 +99,9 @@ $t = $texts[$lang];
 $message = null;
 $messageType = 'success';
 
+// Get all employees for datalist
+$employees = $db->fetchAll("SELECT employee_id, full_name_en, full_name_th FROM employees WHERE status = 'Active' ORDER BY employee_id");
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $employeeId = $_POST['employee_id'] ?? '';
@@ -97,8 +109,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $typeId = $_POST['service_type_id'] ?? '';
     $notes = $_POST['notes'] ?? '';
     
+    // Validate employee ID exists in database
+    $validEmployee = false;
+    foreach ($employees as $emp) {
+        if ($emp['employee_id'] === $employeeId) {
+            $validEmployee = true;
+            break;
+        }
+    }
+    
     if (empty($employeeId) || empty($categoryId) || empty($typeId)) {
         $message = $t['error'];
+        $messageType = 'error';
+    } elseif (!$validEmployee) {
+        $message = $t['invalid_employee'];
         $messageType = 'error';
     } else {
         try {
@@ -131,7 +155,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$employees = $employeeModel->getAllForDropdown();
 $categories = $db->fetchAll("SELECT * FROM service_category_master ORDER BY category_name_en");
 $types = $db->fetchAll("SELECT * FROM service_type_master ORDER BY type_name_en");
 ?>
@@ -140,196 +163,299 @@ $types = $db->fetchAll("SELECT * FROM service_type_master ORDER BY type_name_en"
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $t['title']; ?> - Mini HRMS</title>
+    <title><?php echo $t['title']; ?> - HR Service</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .category-card {
+        .gradient-bg { 
+            background: linear-gradient(135deg, #0EA5E9 0%, #3B82F6 100%); 
+        }
+        
+        .card-hover {
             transition: all 0.3s ease;
             cursor: pointer;
-            border: 3px solid transparent;
         }
-        .category-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .category-card.selected {
-            border-color: #3B82F6;
-            background: linear-gradient(135deg, #EBF4FF 0%, #E0F2FE 100%);
+        
+        .card-hover:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2); 
+        }
+        
+        .card-selected {
+            border-color: #0EA5E9 !important;
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%) !important;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3) !important;
+        }
+        
+        .card-selected::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #0EA5E9;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+            border-left: 4px solid #0EA5E9;
+        }
+
+        /* Datalist styling */
+        #employee_id {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230EA5E9'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 20px;
+        }
+
+        #employee_id:focus {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%233B82F6'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E");
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
-    <div class="min-h-screen flex flex-col">
-        <header class="gradient-bg text-white p-4 shadow-lg">
-            <div class="max-w-6xl mx-auto flex justify-between items-center">
+<body class="bg-gradient-to-br from-blue-50 to-white min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
                 <div>
-                    <h1 class="text-2xl font-bold">Mini HRMS</h1>
-                    <p class="text-sm opacity-90"><?php echo $t['title']; ?></p>
+                    <h1 class="text-2xl md:text-3xl font-bold">🏢 HR Service</h1>
+                    <p class="text-sm md:text-base opacity-90 mt-1"><?php echo $t['title']; ?></p>
                 </div>
                 <div class="flex gap-2">
-                    <a href="?lang=th" class="px-3 py-2 rounded <?php echo $lang === 'th' ? 'bg-white text-blue-600' : 'bg-blue-700 text-white hover:bg-blue-600'; ?>">
-                        🇹🇭 ไทย
+                    <a href="?lang=th" class="px-3 py-2 rounded-lg transition <?php echo $lang === 'th' ? 'bg-white text-blue-600 font-semibold' : 'bg-blue-600 text-white hover:bg-blue-500'; ?>">
+                        🇹🇭 TH
                     </a>
-                    <a href="?lang=en" class="px-3 py-2 rounded <?php echo $lang === 'en' ? 'bg-white text-blue-600' : 'bg-blue-700 text-white hover:bg-blue-600'; ?>">
+                    <a href="?lang=en" class="px-3 py-2 rounded-lg transition <?php echo $lang === 'en' ? 'bg-white text-blue-600 font-semibold' : 'bg-blue-600 text-white hover:bg-blue-500'; ?>">
                         🇬🇧 EN
                     </a>
-                    <a href="?lang=my" class="px-3 py-2 rounded <?php echo $lang === 'my' ? 'bg-white text-blue-600' : 'bg-blue-700 text-white hover:bg-blue-600'; ?>">
+                    <a href="?lang=my" class="px-3 py-2 rounded-lg transition <?php echo $lang === 'my' ? 'bg-white text-blue-600 font-semibold' : 'bg-blue-600 text-white hover:bg-blue-500'; ?>">
                         🇲🇲 MY
                     </a>
                 </div>
             </div>
-        </header>
-        
-        <main class="flex-1 p-4 md:p-8">
-            <div class="max-w-6xl mx-auto">
-                <?php if ($message): ?>
-                    <div class="mb-6 p-4 rounded-lg <?php echo $messageType === 'success' ? 'bg-green-50 border-l-4 border-green-500' : 'bg-red-50 border-l-4 border-red-500'; ?>">
-                        <p class="<?php echo $messageType === 'success' ? 'text-green-700' : 'text-red-700'; ?>">
-                            <?php echo htmlspecialchars($message); ?>
-                        </p>
-                    </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-6 md:py-8">
+        <?php if ($message): ?>
+            <div class="mb-6 p-4 rounded-lg animate-pulse <?php echo $messageType === 'success' ? 'bg-green-50 border-l-4 border-green-500' : 'bg-red-50 border-l-4 border-red-500'; ?>">
+                <p class="<?php echo $messageType === 'success' ? 'text-green-700' : 'text-red-700'; ?> font-semibold">
+                    <?php echo htmlspecialchars($message); ?>
+                </p>
+                <?php if ($messageType === 'success'): ?>
+                    <button onclick="resetForm()" class="mt-2 text-sm text-green-600 hover:text-green-800 underline">
+                        ส่งคำขอใหม่ →
+                    </button>
                 <?php endif; ?>
-                
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <div class="mb-6">
-                        <h2 class="text-2xl font-bold text-gray-800"><?php echo $t['title']; ?></h2>
-                        <p class="text-gray-600 mt-1"><?php echo $t['subtitle']; ?></p>
-                    </div>
-                    
-                    <form method="POST" enctype="multipart/form-data" id="submissionForm" class="space-y-6">
-                        <div>
-                            <label for="employee_id" class="block text-sm font-medium text-gray-700 mb-2">
-                                <?php echo $t['employee_id']; ?> <span class="text-red-500">*</span>
-                            </label>
-                            <input list="employees" 
+            </div>
+        <?php endif; ?>
+        
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-blue-100">
+            <!-- Form Header -->
+            <div class="gradient-bg text-white p-6">
+                <h2 class="text-2xl font-bold"><?php echo $t['title']; ?></h2>
+                <p class="mt-2 opacity-90"><?php echo $t['subtitle']; ?></p>
+            </div>
+            
+            <!-- Form Body -->
+            <form method="POST" enctype="multipart/form-data" id="submissionForm" class="p-6 space-y-6">
+                <!-- Employee Search Section -->
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-100">
+                        1️⃣ <?php echo $t['employee_id']; ?> <span class="text-red-500">*</span>
+                    </h3>
+                    <div class="flex gap-3">
+                        <div class="flex-1">
+                            <input type="text" 
                                    id="employee_id" 
                                    name="employee_id" 
                                    required
-                                   onchange="loadEmployeeInfo()"
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                   list="employeeList"
+                                   autocomplete="off"
+                                   class="w-full px-4 py-3 pr-12 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                                    placeholder="<?php echo $t['employee_id_placeholder']; ?>">
-                            <datalist id="employees">
+                            <datalist id="employeeList">
                                 <?php foreach ($employees as $emp): ?>
                                     <option value="<?php echo htmlspecialchars($emp['employee_id']); ?>">
-                                        <?php echo htmlspecialchars($emp['full_name_en']); ?>
+                                        <?php echo htmlspecialchars($emp['employee_id'] . ' - ' . ($emp['full_name_' . $lang] ?? $emp['full_name_en'])); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </datalist>
                         </div>
-                        
-                        <div id="employeeInfo" class="bg-blue-50 rounded-lg p-4 border border-blue-200 hidden">
-                            <h3 class="font-semibold text-blue-900 mb-3"><?php echo $t['employee_info']; ?></h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo $t['full_name']; ?></label>
-                                    <input type="text" id="emp_full_name" readonly class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-600">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo $t['position']; ?></label>
-                                    <input type="text" id="emp_position" readonly class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-600">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo $t['level']; ?></label>
-                                    <input type="text" id="emp_level" readonly class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-600">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo $t['section']; ?></label>
-                                    <input type="text" id="emp_section" readonly class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-600">
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-3">
-                                <?php echo $t['service_category']; ?> <span class="text-red-500">*</span>
-                            </label>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <?php foreach ($categories as $cat): ?>
-                                    <div class="category-card bg-white rounded-lg p-4 shadow hover:shadow-lg border-2" 
-                                         onclick="selectCategory(this, <?php echo $cat['category_id']; ?>)">
-                                        <input type="radio" 
-                                               name="service_category_id" 
-                                               value="<?php echo $cat['category_id']; ?>" 
-                                               class="hidden"
-                                               required>
-                                        <div class="text-center">
-                                            <div class="text-3xl mb-2">📄</div>
-                                            <p class="font-semibold text-gray-800">
-                                                <?php echo htmlspecialchars($cat['category_name_' . $lang]); ?>
-                                            </p>
-                                        </div>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-3">
-                                <?php echo $t['service_type']; ?> <span class="text-red-500">*</span>
-                            </label>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <?php foreach ($types as $type): ?>
-                                    <div class="category-card bg-white rounded-lg p-4 shadow hover:shadow-lg border-2"
-                                         onclick="selectType(this, <?php echo $type['type_id']; ?>)">
-                                        <input type="radio" 
-                                               name="service_type_id" 
-                                               value="<?php echo $type['type_id']; ?>" 
-                                               class="hidden"
-                                               required>
-                                        <div class="text-center">
-                                            <div class="text-3xl mb-2">👤</div>
-                                            <p class="font-semibold text-gray-800">
-                                                <?php echo htmlspecialchars($type['type_name_' . $lang]); ?>
-                                            </p>
-                                        </div>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <label for="document" class="block text-sm font-medium text-gray-700 mb-2">
-                                <?php echo $t['document']; ?>
-                            </label>
-                            <input type="file" 
-                                   id="document" 
-                                   name="document" 
-                                   accept=".pdf,.jpg,.jpeg,.png"
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                            <p class="text-xs text-gray-500 mt-1">PDF, JPG, PNG (Max 5MB)</p>
-                        </div>
-                        
-                        <div>
-                            <label for="notes" class="block text-sm font-medium text-gray-700 mb-2">
-                                <?php echo $t['notes']; ?>
-                            </label>
-                            <textarea id="notes" 
-                                      name="notes" 
-                                      rows="4"
-                                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                                      placeholder="<?php echo $t['notes_placeholder']; ?>"></textarea>
-                        </div>
-                        
-                        <div class="flex gap-3 pt-4 border-t">
-                            <button type="submit" class="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg hover:from-blue-600 hover:to-purple-700 transition font-semibold">
-                                <?php echo $t['submit']; ?>
-                            </button>
-                            <a href="<?php echo BASE_URL; ?>/index.php" class="flex-1 bg-gray-500 text-white py-3 rounded-lg hover:bg-gray-600 transition font-semibold text-center">
-                                <?php echo $t['back']; ?>
-                            </a>
-                        </div>
-                    </form>
+                        <button type="button" 
+                                onclick="loadEmployeeInfo()" 
+                                class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition font-semibold shadow-lg">
+                            🔍 <?php echo $t['search']; ?>
+                        </button>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2">💡 พิมพ์รหัสพนักงานหรือชื่อเพื่อค้นหา</p>
                 </div>
-            </div>
-        </main>
-        
-        <footer class="bg-white border-t p-4 text-center text-sm text-gray-600">
-            <p>&copy; <?php echo date('Y'); ?> Trax Inter Trade Co., Ltd.</p>
-        </footer>
-    </div>
+                
+                <!-- Employee Info Display -->
+                <div id="employeeInfo" class="hidden">
+                    <div class="info-box rounded-xl p-6 shadow-sm">
+                        <h3 class="font-bold text-gray-800 mb-4">✓ <?php echo $t['employee_info']; ?></h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-1"><?php echo $t['full_name']; ?></label>
+                                <input type="text" id="emp_full_name" readonly class="w-full px-4 py-2 bg-white border border-blue-200 rounded-lg text-gray-800 font-semibold">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-1"><?php echo $t['position']; ?></label>
+                                <input type="text" id="emp_position" readonly class="w-full px-4 py-2 bg-white border border-blue-200 rounded-lg text-gray-800">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-1"><?php echo $t['department']; ?></label>
+                                <input type="text" id="emp_department" readonly class="w-full px-4 py-2 bg-white border border-blue-200 rounded-lg text-gray-800">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Category Selection -->
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-100">
+                        2️⃣ <?php echo $t['service_category']; ?> <span class="text-red-500">*</span>
+                    </h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <?php foreach ($categories as $cat): ?>
+                            <div class="card-hover relative bg-white rounded-xl p-4 shadow-md border-2 border-blue-100 hover:border-blue-300" 
+                                 onclick="selectCard(this, 'service_category_id', <?php echo $cat['category_id']; ?>)">
+                                <input type="radio" 
+                                       name="service_category_id" 
+                                       value="<?php echo $cat['category_id']; ?>" 
+                                       class="hidden">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-3">📄</div>
+                                    <p class="font-semibold text-gray-800 text-sm">
+                                        <?php echo htmlspecialchars($cat['category_name_' . $lang] ?? $cat['category_name_en']); ?>
+                                    </p>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                
+                <!-- Service Type Selection -->
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-100">
+                        3️⃣ <?php echo $t['service_type']; ?> <span class="text-red-500">*</span>
+                    </h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <?php foreach ($types as $type): ?>
+                            <div class="card-hover relative bg-white rounded-xl p-5 shadow-md border-2 border-blue-100 hover:border-blue-300"
+                                 onclick="selectCard(this, 'service_type_id', <?php echo $type['type_id']; ?>)">
+                                <input type="radio" 
+                                       name="service_type_id" 
+                                       value="<?php echo $type['type_id']; ?>" 
+                                       class="hidden">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-3">👤</div>
+                                    <p class="font-semibold text-gray-800">
+                                        <?php echo htmlspecialchars($type['type_name_' . $lang] ?? $type['type_name_en']); ?>
+                                    </p>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                
+                <!-- Document Upload -->
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-100">
+                        4️⃣ <?php echo $t['document']; ?>
+                    </h3>
+                    <div class="border-2 border-dashed border-blue-200 rounded-xl p-6 text-center hover:border-blue-400 transition bg-blue-50/30">
+                        <input type="file" 
+                               id="document" 
+                               name="document" 
+                               accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                               onchange="showFileName()"
+                               class="hidden">
+                        <label for="document" class="cursor-pointer">
+                            <div class="text-5xl mb-3">📎</div>
+                            <p class="text-gray-700 font-semibold mb-2"><?php echo $t['document']; ?></p>
+                            <p class="text-sm text-gray-500">PDF, JPG, PNG, DOC, DOCX (Max 5MB)</p>
+                            <p id="fileName" class="text-sm text-blue-600 mt-2 font-semibold"></p>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Notes -->
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-100">
+                        5️⃣ <?php echo $t['notes']; ?>
+                    </h3>
+                    <textarea id="notes" 
+                              name="notes" 
+                              rows="4"
+                              class="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                              placeholder="<?php echo $t['notes_placeholder']; ?>"></textarea>
+                </div>
+                
+                <!-- Required Fields Notice -->
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg">
+                    <p class="text-sm text-blue-800">
+                        <strong>⚠️ <?php echo $t['required_fields']; ?></strong>
+                    </p>
+                </div>
+                
+                <!-- Form Actions -->
+                <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t-2 border-blue-100">
+                    <button type="submit" 
+                            class="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white py-4 rounded-xl hover:from-blue-600 hover:to-blue-700 transition font-bold text-lg shadow-xl">
+                        ✓ <?php echo $t['submit']; ?>
+                    </button>
+                    <button type="button" 
+                            onclick="resetForm()" 
+                            class="flex-1 bg-gray-400 text-white py-4 rounded-xl hover:bg-gray-500 transition font-bold text-lg shadow-xl">
+                        ↻ <?php echo $t['clear']; ?>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-white border-t border-blue-100 mt-8 py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-600 text-sm">© <?php echo date('Y'); ?> Trax Inter Trade Co., Ltd. | Powered by HR Service</p>
+        </div>
+    </footer>
 
     <script>
+        // Valid employee IDs list
+        const validEmployeeIds = [
+            <?php 
+                $ids = array_map(function($emp) {
+                    return "'" . $emp['employee_id'] . "'";
+                }, $employees);
+                echo implode(',', $ids);
+            ?>
+        ];
+
+        // Load Employee Info
         function loadEmployeeInfo() {
-            const employeeId = document.getElementById('employee_id').value;
+            const employeeId = document.getElementById('employee_id').value.trim();
+            
             if (!employeeId) {
+                alert('<?php echo $t['employee_id_placeholder']; ?>');
+                return;
+            }
+
+            // Validate if employee ID is in the list
+            if (!validEmployeeIds.includes(employeeId)) {
+                alert('<?php echo $t['invalid_employee']; ?>');
                 document.getElementById('employeeInfo').classList.add('hidden');
                 return;
             }
@@ -341,45 +467,105 @@ $types = $db->fetchAll("SELECT * FROM service_type_master ORDER BY type_name_en"
                         const emp = data.data;
                         document.getElementById('emp_full_name').value = emp.full_name_en || 'N/A';
                         document.getElementById('emp_position').value = emp.position_name || 'N/A';
-                        document.getElementById('emp_level').value = emp.position_level || 'N/A';
-                        document.getElementById('emp_section').value = emp.section_name || 'N/A';
+                        document.getElementById('emp_department').value = emp.department_name || 'N/A';
                         document.getElementById('employeeInfo').classList.remove('hidden');
+                    } else {
+                        alert('<?php echo $t['employee_not_found']; ?>');
+                        document.getElementById('employeeInfo').classList.add('hidden');
                     }
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error loading employee information');
+                });
         }
         
-        function selectCategory(element, categoryId) {
-            document.querySelectorAll('.category-card').forEach(card => {
-                if (card.querySelector('input[name="service_category_id"]')) {
-                    card.classList.remove('selected');
-                }
+        // Auto-load when selecting from datalist
+        document.getElementById('employee_id').addEventListener('input', function() {
+            const value = this.value.trim();
+            if (validEmployeeIds.includes(value)) {
+                loadEmployeeInfo();
+            }
+        });
+
+        // Select Card
+        function selectCard(element, inputName, value) {
+            document.querySelectorAll(`input[name="${inputName}"]`).forEach(input => {
+                input.closest('.card-hover').classList.remove('card-selected');
             });
-            element.classList.add('selected');
-            element.querySelector('input').checked = true;
+            
+            element.classList.add('card-selected');
+            
+            const radio = element.querySelector(`input[name="${inputName}"]`);
+            radio.checked = true;
+            radio.setCustomValidity('');
         }
         
-        function selectType(element, typeId) {
-            document.querySelectorAll('.category-card').forEach(card => {
-                if (card.querySelector('input[name="service_type_id"]')) {
-                    card.classList.remove('selected');
+        // Show selected file name
+        function showFileName() {
+            const fileInput = document.getElementById('document');
+            const fileNameDisplay = document.getElementById('fileName');
+            
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const fileSize = (file.size / 1024 / 1024).toFixed(2);
+                fileNameDisplay.textContent = `✓ Selected: ${file.name} (${fileSize} MB)`;
+                
+                // Check file size
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size must not exceed 5MB!');
+                    fileInput.value = '';
+                    fileNameDisplay.textContent = '';
                 }
-            });
-            element.classList.add('selected');
-            element.querySelector('input').checked = true;
+            }
         }
         
+        // Reset Form
+        function resetForm() {
+            if (confirm('ต้องการล้างข้อมูลทั้งหมดหรือไม่?')) {
+                document.getElementById('submissionForm').reset();
+                document.getElementById('employeeInfo').classList.add('hidden');
+                document.getElementById('fileName').textContent = '';
+                
+                // Remove all selected states
+                document.querySelectorAll('.card-selected').forEach(card => {
+                    card.classList.remove('card-selected');
+                });
+            }
+        }
+        
+        // Form Validation
         document.getElementById('submissionForm').addEventListener('submit', function(e) {
-            const employeeId = document.getElementById('employee_id').value;
+            const employeeId = document.getElementById('employee_id').value.trim();
             const categoryId = document.querySelector('input[name="service_category_id"]:checked');
             const typeId = document.querySelector('input[name="service_type_id"]:checked');
             
-            if (!employeeId || !categoryId || !typeId) {
+            // Validate employee ID is in the list
+            if (!validEmployeeIds.includes(employeeId)) {
                 e.preventDefault();
-                alert('<?php echo $t['error']; ?>');
+                alert('<?php echo $t['invalid_employee']; ?>');
                 return false;
             }
             
+            if (!employeeId) {
+                e.preventDefault();
+                alert('<?php echo $t['employee_id_placeholder']; ?>');
+                return false;
+            }
+            
+            if (!categoryId) {
+                e.preventDefault();
+                alert('<?php echo $t['select_category']; ?>');
+                return false;
+            }
+            
+            if (!typeId) {
+                e.preventDefault();
+                alert('<?php echo $t['select_type']; ?>');
+                return false;
+            }
+            
+            // Check file size if uploaded
             const fileInput = document.getElementById('document');
             if (fileInput.files.length > 0) {
                 const fileSize = fileInput.files[0].size;
@@ -389,6 +575,16 @@ $types = $db->fetchAll("SELECT * FROM service_type_master ORDER BY type_name_en"
                     alert('File size must not exceed 5MB!');
                     return false;
                 }
+            }
+            
+            return true;
+        });
+        
+        // Auto-load employee info when pressing Enter
+        document.getElementById('employee_id').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                loadEmployeeInfo();
             }
         });
     </script>

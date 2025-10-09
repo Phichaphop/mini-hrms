@@ -1,6 +1,6 @@
 <?php
 // /models/Employee.php
-// Employee Data Model
+// Employee Data Model - FIXED VERSION
 
 require_once __DIR__ . '/../db/Database.php';
 
@@ -65,7 +65,7 @@ class Employee {
     }
     
     /**
-     * Create new employee
+     * Create new employee - FIXED VERSION
      * @param array $data
      * @return array
      */
@@ -87,9 +87,9 @@ class Employee {
             
             $sql = "INSERT INTO employees (
                 employee_id, prefix_id, full_name_th, full_name_en, function_id, 
-                division_id, department_id, section_id, operation, position_id, 
-                position_level, labour_cost, hiring_type, customer_zone, contribution_level,
-                sex, nationality, birthday, age, education_level, phone_no,
+                division_id, department_id, section_id, operation_id, position_id, 
+                position_level, labour_cost_id, hiring_type_id, customer_zone_id, contribution_level_id,
+                sex, nationality, birthday, age, education_level_id, phone_no,
                 address_village, address_subdistrict, address_district, address_province,
                 date_of_hire, year_of_service, status, username, password, role_id,
                 theme_color_preference, language_preference
@@ -107,18 +107,18 @@ class Employee {
                 $data['division_id'] ?? null,
                 $data['department_id'] ?? null,
                 $data['section_id'] ?? null,
-                $data['operation'] ?? null,
+                $data['operation_id'] ?? null,
                 $data['position_id'] ?? null,
                 $data['position_level'] ?? null,
-                $data['labour_cost'] ?? null,
-                $data['hiring_type'] ?? null,
-                $data['customer_zone'] ?? null,
-                $data['contribution_level'] ?? null,
+                $data['labour_cost_id'] ?? null,
+                $data['hiring_type_id'] ?? null,
+                $data['customer_zone_id'] ?? null,
+                $data['contribution_level_id'] ?? null,
                 $data['sex'] ?? null,
                 $data['nationality'] ?? null,
                 $data['birthday'] ?? null,
                 $data['age'] ?? null,
-                $data['education_level'] ?? null,
+                $data['education_level_id'] ?? null,
                 $data['phone_no'] ?? null,
                 $data['address_village'] ?? null,
                 $data['address_subdistrict'] ?? null,
@@ -129,7 +129,7 @@ class Employee {
                 $data['status'] ?? 'Active',
                 $data['username'],
                 $hashedPassword,
-                $data['role_id'] ?? 3, // Default to Employee role
+                $data['role_id'] ?? 3,
                 $data['theme_color_preference'] ?? DEFAULT_THEME_COLOR,
                 $data['language_preference'] ?? DEFAULT_LANGUAGE
             ]);
@@ -155,10 +155,10 @@ class Employee {
             // Build dynamic update query
             $allowedFields = [
                 'prefix_id', 'full_name_th', 'full_name_en', 'function_id', 
-                'division_id', 'department_id', 'section_id', 'operation', 'position_id',
-                'position_level', 'labour_cost', 'hiring_type', 'customer_zone', 
-                'contribution_level', 'sex', 'nationality', 'birthday', 'age',
-                'education_level', 'phone_no', 'address_village', 'address_subdistrict',
+                'division_id', 'department_id', 'section_id', 'operation_id', 'position_id',
+                'position_level', 'labour_cost_id', 'hiring_type_id', 'customer_zone_id', 
+                'contribution_level_id', 'sex', 'nationality', 'birthday', 'age',
+                'education_level_id', 'phone_no', 'address_village', 'address_subdistrict',
                 'address_district', 'address_province', 'date_of_hire', 'year_of_service',
                 'date_of_termination', 'month_of_termination', 'status', 
                 'reason_for_termination', 'suggestion', 'remark', 'username',

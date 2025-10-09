@@ -1,6 +1,6 @@
 <?php
-// /views/admin/employee_edit.php
-// Edit Employee Information - COMPLETE VERSION with All Dropdowns
+// /views/admin/employee_edit.php - UPDATED VERSION
+// Edit Employee Information - With Auto-Calculate Features
 
 require_once __DIR__ . '/../../config/db_config.php';
 require_once __DIR__ . '/../../db/Database.php';
@@ -46,18 +46,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'division_id' => $_POST['division_id'] ?: null,
             'department_id' => $_POST['department_id'] ?: null,
             'section_id' => $_POST['section_id'] ?: null,
-            'operation' => $_POST['operation'],
+            'operation_id' => $_POST['operation_id'] ?: null,
             'position_id' => $_POST['position_id'] ?: null,
             'position_level' => $_POST['position_level'],
-            'labour_cost' => $_POST['labour_cost'] ?: null,
-            'hiring_type' => $_POST['hiring_type'],
-            'customer_zone' => $_POST['customer_zone'],
-            'contribution_level' => $_POST['contribution_level'],
+            'labour_cost_id' => $_POST['labour_cost_id'] ?: null,
+            'hiring_type_id' => $_POST['hiring_type_id'] ?: null,
+            'customer_zone_id' => $_POST['customer_zone_id'] ?: null,
+            'contribution_level_id' => $_POST['contribution_level_id'] ?: null,
             'sex' => $_POST['sex'],
             'nationality' => $_POST['nationality'],
             'birthday' => $_POST['birthday'] ?: null,
             'age' => $_POST['age'] ?: null,
-            'education_level' => $_POST['education_level'],
+            'education_level_id' => $_POST['education_level_id'] ?: null,
             'phone_no' => $_POST['phone_no'],
             'address_village' => $_POST['address_village'],
             'address_subdistrict' => $_POST['address_subdistrict'],
@@ -128,7 +128,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="employee_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Employee ID <span class="text-red-500">*</span>
                     </label>
-                    <input type="text" id="employee_id" value="<?php echo htmlspecialchars($employee['employee_id']); ?>" readonly class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-400">
+                    <input type="text" 
+                           id="employee_id" 
+                           value="<?php echo htmlspecialchars($employee['employee_id']); ?>" 
+                           readonly 
+                           class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-400">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Cannot be changed</p>
                 </div>
                 
                 <div>
@@ -166,18 +171,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 <div>
                     <label for="birthday" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Birthday</label>
-                    <input type="date" id="birthday" name="birthday" value="<?php echo htmlspecialchars($employee['birthday']); ?>" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <input type="date" id="birthday" name="birthday" value="<?php echo htmlspecialchars($employee['birthday']); ?>" onchange="calculateAge()" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                 </div>
                 
                 <div>
-                    <label for="age" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Age</label>
-                    <input type="number" id="age" name="age" value="<?php echo htmlspecialchars($employee['age']); ?>" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <label for="age" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Age (Auto)</label>
+                    <input type="number" 
+                           id="age" 
+                           name="age" 
+                           value="<?php echo htmlspecialchars($employee['age']); ?>" 
+                           readonly 
+                           class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Auto-calculated from birthday</p>
                 </div>
                 
                 <div>
-                    <label for="education_level" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Education Level</label>
-                    <select id="education_level" name="education_level" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                        <?php echo getEducationLevelOptions($db, $employee['education_level']); ?>
+                    <label for="education_level_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Education Level</label>
+                    <select id="education_level_id" name="education_level_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                        <?php echo getEducationLevelOptions($db, $employee['education_level_id']); ?>
                     </select>
                 </div>
                 
@@ -251,9 +262,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 
                 <div>
-                    <label for="operation" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Operation</label>
-                    <select id="operation" name="operation" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                        <?php echo getOperationOptions($db, $employee['operation']); ?>
+                    <label for="operation_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Operation</label>
+                    <select id="operation_id" name="operation_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                        <?php echo getOperationOptions($db, $employee['operation_id']); ?>
                     </select>
                 </div>
                 
@@ -272,66 +283,81 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 
                 <div>
-                    <label for="labour_cost" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Labour Cost (THB)</label>
-                    <input type="number" step="0.01" id="labour_cost" name="labour_cost" value="<?php echo htmlspecialchars($employee['labour_cost']); ?>" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                </div>
-                
-                <div>
-                    <label for="hiring_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Hiring Type</label>
-                    <select id="hiring_type" name="hiring_type" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                        <?php echo getHiringTypeOptions($db, $employee['hiring_type']); ?>
+                    <label for="labour_cost_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Labour Cost Category</label>
+                    <select id="labour_cost_id" name="labour_cost_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                        <?php echo getLabourCostOptions($db, $employee['labour_cost_id']); ?>
                     </select>
                 </div>
                 
                 <div>
-                    <label for="customer_zone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Customer Zone</label>
-                    <select id="customer_zone" name="customer_zone" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                        <?php echo getCustomerZoneOptions($db, $employee['customer_zone']); ?>
+                    <label for="hiring_type_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Hiring Type</label>
+                    <select id="hiring_type_id" name="hiring_type_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                        <?php echo getHiringTypeOptions($db, $employee['hiring_type_id']); ?>
                     </select>
                 </div>
                 
                 <div>
-                    <label for="contribution_level" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Contribution Level</label>
-                    <select id="contribution_level" name="contribution_level" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                        <?php echo getContributionLevelOptions($db, $employee['contribution_level']); ?>
+                    <label for="customer_zone_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Customer Zone</label>
+                    <select id="customer_zone_id" name="customer_zone_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                        <?php echo getCustomerZoneOptions($db, $employee['customer_zone_id']); ?>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="contribution_level_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Contribution Level</label>
+                    <select id="contribution_level_id" name="contribution_level_id" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                        <?php echo getContributionLevelOptions($db, $employee['contribution_level_id']); ?>
                     </select>
                 </div>
                 
                 <div>
                     <label for="date_of_hire" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date of Hire</label>
-                    <input type="date" id="date_of_hire" name="date_of_hire" value="<?php echo htmlspecialchars($employee['date_of_hire']); ?>" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <input type="date" id="date_of_hire" name="date_of_hire" value="<?php echo htmlspecialchars($employee['date_of_hire']); ?>" onchange="calculateYearsOfService()" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                 </div>
                 
                 <div>
-                    <label for="year_of_service" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Years of Service</label>
-                    <input type="number" id="year_of_service" name="year_of_service" value="<?php echo htmlspecialchars($employee['year_of_service']); ?>" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <label for="year_of_service" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Years of Service (Auto)</label>
+                    <input type="number" 
+                           id="year_of_service" 
+                           name="year_of_service" 
+                           value="<?php echo htmlspecialchars($employee['year_of_service']); ?>" 
+                           readonly 
+                           class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Auto-calculated from date of hire</p>
                 </div>
                 
                 <div>
                     <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status <span class="text-red-500">*</span></label>
-                    <select id="status" name="status" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <select id="status" name="status" required onchange="handleStatusChange()" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                         <?php echo getStatusOptions($employee['status']); ?>
                     </select>
                 </div>
                 
-                <div>
-                    <label for="date_of_termination" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date of Termination</label>
-                    <input type="date" id="date_of_termination" name="date_of_termination" value="<?php echo htmlspecialchars($employee['date_of_termination']); ?>" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                </div>
-                
-                <div>
-                    <label for="month_of_termination" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Month of Termination</label>
-                    <input type="number" id="month_of_termination" name="month_of_termination" value="<?php echo htmlspecialchars($employee['month_of_termination']); ?>" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                </div>
-                
-                <div class="md:col-span-3">
-                    <label for="reason_for_termination" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Reason for Termination</label>
-                    <textarea id="reason_for_termination" name="reason_for_termination" rows="2" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"><?php echo htmlspecialchars($employee['reason_for_termination']); ?></textarea>
-                </div>
-                
-                <div class="md:col-span-3">
-                    <label for="suggestion" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Suggestion</label>
-                    <textarea id="suggestion" name="suggestion" rows="2" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"><?php echo htmlspecialchars($employee['suggestion']); ?></textarea>
+                <div id="terminationFields" class="md:col-span-3 <?php echo $employee['status'] === 'Terminated' ? '' : 'hidden'; ?>">
+                    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                        <h3 class="font-semibold text-red-800 dark:text-red-300 mb-3">Termination Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label for="date_of_termination" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date of Termination</label>
+                                <input type="date" id="date_of_termination" name="date_of_termination" value="<?php echo htmlspecialchars($employee['date_of_termination']); ?>" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                            </div>
+                            
+                            <div>
+                                <label for="month_of_termination" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Month of Termination</label>
+                                <input type="number" id="month_of_termination" name="month_of_termination" value="<?php echo htmlspecialchars($employee['month_of_termination']); ?>" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="reason_for_termination" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Reason for Termination</label>
+                            <textarea id="reason_for_termination" name="reason_for_termination" rows="2" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"><?php echo htmlspecialchars($employee['reason_for_termination']); ?></textarea>
+                        </div>
+                        
+                        <div>
+                            <label for="suggestion" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Suggestion</label>
+                            <textarea id="suggestion" name="suggestion" rows="2" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"><?php echo htmlspecialchars($employee['suggestion']); ?></textarea>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="md:col-span-3">
@@ -358,10 +384,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Password <span class="text-xs text-gray-500">(Leave blank to keep current)</span>
                     </label>
-                    <input type="password" id="password" name="password" placeholder="Enter new password" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                </div>
-                
-                <div>
+                    <input type="password" id="password" name="password" placeholder="Enter new password to change" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Leave blank to keep current password</p>
+                </div><div>
                     <label for="role_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Role <span class="text-red-500">*</span>
                     </label>
@@ -383,5 +408,78 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </form>
 </div>
+
+<script>
+// Calculate Age from Birthday
+function calculateAge() {
+    const birthday = document.getElementById('birthday').value;
+    if (birthday) {
+        const birthDate = new Date(birthday);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        
+        document.getElementById('age').value = age >= 0 ? age : 0;
+    }
+}
+
+// Calculate Years of Service from Date of Hire
+function calculateYearsOfService() {
+    const dateOfHire = document.getElementById('date_of_hire').value;
+    if (dateOfHire) {
+        const hireDate = new Date(dateOfHire);
+        const today = new Date();
+        let years = today.getFullYear() - hireDate.getFullYear();
+        const monthDiff = today.getMonth() - hireDate.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < hireDate.getDate())) {
+            years--;
+        }
+        
+        document.getElementById('year_of_service').value = years >= 0 ? years : 0;
+    }
+}
+
+// Handle Status Change - Show/Hide Termination Fields
+function handleStatusChange() {
+    const status = document.getElementById('status').value;
+    const terminationFields = document.getElementById('terminationFields');
+    
+    if (status === 'Terminated') {
+        terminationFields.classList.remove('hidden');
+        // Auto-fill termination date with today if empty
+        const terminationDate = document.getElementById('date_of_termination');
+        if (!terminationDate.value) {
+            terminationDate.value = new Date().toISOString().split('T')[0];
+        }
+    } else {
+        terminationFields.classList.add('hidden');
+        // Clear termination fields when status is not Terminated
+        document.getElementById('date_of_termination').value = '';
+        document.getElementById('month_of_termination').value = '';
+        document.getElementById('reason_for_termination').value = '';
+        document.getElementById('suggestion').value = '';
+    }
+}
+
+// Initialize calculations on page load
+window.addEventListener('DOMContentLoaded', function() {
+    // Calculate age if birthday exists
+    const birthday = document.getElementById('birthday').value;
+    if (birthday) {
+        calculateAge();
+    }
+    
+    // Calculate years of service if date of hire exists
+    const dateOfHire = document.getElementById('date_of_hire').value;
+    if (dateOfHire) {
+        calculateYearsOfService();
+    }
+});
+</script>
 
 <?php require_once __DIR__ . '/../layout/footer.php'; ?>

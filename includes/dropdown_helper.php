@@ -25,20 +25,18 @@ function getPrefixOptions($db, $selectedId = null) {
  * Get operation options with multilingual support
  */
 function getOperationOptions($db, $selectedId = null) {
-    $lang = getCurrentLanguage();
     $operations = $db->fetchAll("SELECT * FROM operation_master ORDER BY operation_id");
     
     $html = '<option value="">Select Operation</option>';
     foreach ($operations as $operation) {
         $selected = ($selectedId == $operation['operation_id']) ? 'selected' : '';
-        $name = $operation["operation_name_{$lang}"] ?? $operation['operation_name_en'];
-        $html .= "<option value='{$operation['operation_id']}' {$selected}>" . htmlspecialchars($name) . "</option>";
+        $html .= "<option value='{$operation['operation_id']}' {$selected}>" . htmlspecialchars($operation['operation_name']) . "</option>";
     }
     return $html;
 }
 
 /**
- * Get labour cost options with multilingual support
+ * ✅ FIXED: Get labour cost options with multilingual support
  */
 function getLabourCostOptions($db, $selectedId = null) {
     $lang = getCurrentLanguage();
@@ -70,33 +68,29 @@ function getHiringTypeOptions($db, $selectedId = null) {
 }
 
 /**
- * Get customer zone options with multilingual support
+ * Get customer zone options
  */
 function getCustomerZoneOptions($db, $selectedId = null) {
-    $lang = getCurrentLanguage();
     $zones = $db->fetchAll("SELECT * FROM customer_zone_master ORDER BY zone_id");
     
     $html = '<option value="">Select Customer Zone</option>';
     foreach ($zones as $zone) {
         $selected = ($selectedId == $zone['zone_id']) ? 'selected' : '';
-        $name = $zone["zone_name_{$lang}"] ?? $zone['zone_name_en'];
-        $html .= "<option value='{$zone['zone_id']}' {$selected}>" . htmlspecialchars($name) . "</option>";
+        $html .= "<option value='{$zone['zone_id']}' {$selected}>" . htmlspecialchars($zone['zone_name']) . "</option>";
     }
     return $html;
 }
 
 /**
- * Get contribution level options with multilingual support
+ * Get contribution level options
  */
 function getContributionLevelOptions($db, $selectedId = null) {
-    $lang = getCurrentLanguage();
     $levels = $db->fetchAll("SELECT * FROM contribution_level_master ORDER BY level_id");
     
     $html = '<option value="">Select Contribution Level</option>';
     foreach ($levels as $level) {
         $selected = ($selectedId == $level['level_id']) ? 'selected' : '';
-        $name = $level["level_name_{$lang}"] ?? $level['level_name_en'];
-        $html .= "<option value='{$level['level_id']}' {$selected}>" . htmlspecialchars($name) . "</option>";
+        $html .= "<option value='{$level['level_id']}' {$selected}>" . htmlspecialchars($level['level_name']) . "</option>";
     }
     return $html;
 }
@@ -202,16 +196,17 @@ function getPositionLevelOptions($db, $selectedValue = null) {
 }
 
 /**
- * Get education level options
+ * ✅ FIXED: Get education level options
  */
-
-function getEducationLevelOptions($db, $selectedValue = null) {
-    $levels = $db->fetchAll("SELECT * FROM education_level_master ORDER BY education_name");
+function getEducationLevelOptions($db, $selectedId = null) {
+    $lang = getCurrentLanguage();
+    $levels = $db->fetchAll("SELECT * FROM education_level_master ORDER BY education_id");
     
     $html = '<option value="">Select Education Level</option>';
     foreach ($levels as $level) {
-        $selected = ($selectedValue === $level['education_name']) ? 'selected' : '';
-        $html .= "<option value='" . htmlspecialchars($level['education_name']) . "' {$selected}>" . htmlspecialchars($level['education_name']) . "</option>";
+        $selected = ($selectedId == $level['education_id']) ? 'selected' : '';
+        $name = $level["education_name_{$lang}"] ?? $level['education_name_en'];
+        $html .= "<option value='{$level['education_id']}' {$selected}>" . htmlspecialchars($name) . "</option>";
     }
     return $html;
 }

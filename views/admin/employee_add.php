@@ -110,6 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                            maxlength="8" 
                            pattern="[0-9]{8}" 
                            placeholder="90000001" 
+                           oninput="autoFillCredentials()"
                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">8 digits number</p>
                 </div>
@@ -149,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 <div>
                     <label for="birthday" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Birthday</label>
-                    <input type="date" id="birthday" name="birthday" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <input type="date" id="birthday" name="birthday" onchange="calculateAge()" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                 </div>
                 
                 <div>
@@ -289,12 +290,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 <div>
                     <label for="date_of_hire" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date of Hire</label>
-                    <input type="date" id="date_of_hire" name="date_of_hire" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <input type="date" id="date_of_hire" name="date_of_hire" onchange="calculateYearsOfService()" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                 </div>
                 
                 <div>
-                    <label for="year_of_service" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Years of Service</label>
-                    <input type="number" id="year_of_service" name="year_of_service" min="0" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <label for="year_of_service" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Years of Service (Auto)</label>
+                    <input type="number" 
+                           id="year_of_service" 
+                           name="year_of_service" 
+                           readonly 
+                           class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Auto-calculated from date of hire</p>
                 </div>
                 
                 <div>
@@ -311,6 +317,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
                 System Information
             </h2>
+            <div class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-4 mb-4 rounded">
+                <p class="text-sm text-blue-700 dark:text-blue-300">
+                    <strong>Auto-fill:</strong> Username and password will be automatically filled with the Employee ID when you enter it above.
+                </p>
+            </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                     <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -323,8 +334,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Password <span class="text-red-500">*</span>
                     </label>
-                    <input type="password" id="password" name="password" required minlength="6" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Minimum 6 characters</p>
+                    <input type="text" id="password" name="password" required minlength="6" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Default: Employee ID (can be changed later)</p>
                 </div>
                 
                 <div>
@@ -349,5 +360,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </form>
 </div>
+
+<script>
+// Auto-fill Username and Password from Employee ID
+function autoFillCredentials() {
+    const employeeId = document.getElementById('employee_id').value;
+    if (employeeId && employeeId.length === 8) {
+        document.getElementById('username').value = employeeId;
+        document.getElementById('password').value = employeeId;
+    }
+}
+
+// Calculate Age from Birthday
+function calculateAge() {
+    const birthday = document.getElementById('birthday').value;
+    if (birthday) {
+        const birthDate = new Date(birthday);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        
+        document.getElementById('age').value = age >= 0 ? age : 0;
+    }
+}
+
+// Calculate Years of Service from Date of Hire
+function calculateYearsOfService() {
+    const dateOfHire = document.getElementById('date_of_hire').value;
+    if (dateOfHire) {
+        const hireDate = new Date(dateOfHire);
+        const today = new Date();
+        let years = today.getFullYear() - hireDate.getFullYear();
+        const monthDiff = today.getMonth() - hireDate.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < hireDate.getDate())) {
+            years--;
+        }
+        
+        document.getElementById('year_of_service').value = years >= 0 ? years : 0;
+    }
+}
+</script>
 
 <?php require_once __DIR__ . '/../layout/footer.php'; ?>
