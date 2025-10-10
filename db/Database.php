@@ -73,7 +73,11 @@ class Database {
                 $this->conn->exec($tableSql);
             }
             
-            $this->seedInitialData();
+            // ตรวจสอบว่ามีข้อมูลอยู่แล้วหรือไม่ ถ้าไม่มีถึงจะ seed
+            $checkData = $this->conn->query("SELECT COUNT(*) FROM `roles`")->fetchColumn();
+            if ($checkData == 0) {
+                $this->seedInitialData();
+            }
             
             return ['success' => true, 'message' => 'All tables created and seeded successfully'];
         } catch(PDOException $e) {
@@ -373,6 +377,8 @@ class Database {
                 `status` ENUM('New','In Progress','Complete','Cancelled') DEFAULT 'New',
                 `handler_id` VARCHAR(8),
                 `handler_remarks` TEXT,
+                `satisfaction_score` INT CHECK (`satisfaction_score` BETWEEN 1 AND 5),
+                `satisfaction_feedback` TEXT,
                 FOREIGN KEY (`employee_id`) REFERENCES `employees`(`employee_id`) ON DELETE CASCADE,
                 FOREIGN KEY (`service_category_id`) REFERENCES `service_category_master`(`category_id`) ON DELETE CASCADE,
                 FOREIGN KEY (`service_type_id`) REFERENCES `service_type_master`(`type_id`) ON DELETE CASCADE,
@@ -503,6 +509,14 @@ class Database {
     }
     
     private function seedInitialData() {
+        // ตรวจสอบว่ามีข้อมูลใน roles อยู่แล้วหรือไม่
+        $checkRoles = $this->conn->query("SELECT COUNT(*) FROM `roles`")->fetchColumn();
+        
+        // ถ้ายังไม่มีข้อมูล ถึงจะ seed
+        if ($checkRoles > 0) {
+            return; // มีข้อมูลแล้ว ไม่ต้อง seed
+        }
+        
         // Roles
         $this->conn->exec("INSERT INTO `roles` (`role_name`, `role_description`) VALUES
             ('Admin', 'Full access to all system functions'),
@@ -709,5 +723,65 @@ class Database {
     
     public function lastInsertId() {
         return $this->conn->lastInsertId();
+    }
+    
+    /**
+     * Add missing satisfaction columns to request tables
+     * @return array
+     */
+    public function addSatisfactionColumns() {
+        try {
+            $this->conn->exec("USE `" . DB_NAME . "`");
+            
+            $tables = [
+                'leave_requests',
+                'certificate_requests',
+                'id_card_requests',
+                'shuttle_bus_requests',
+                'locker_usage_requests',
+                'supplies_requests',
+                'skill_test_requests'
+            ];
+            
+            $updated = [];
+            
+            foreach ($tables as $table) {
+                // ตรวจสอบว่าตารางมีอยู่หรือไม่
+                $checkTable = $this->conn->query("SHOW TABLES LIKE '$table'")->fetch();
+                if (!$checkTable) {
+                    continue;
+                }
+                
+                // ตรวจสอบว่ามีคอลัมน์ satisfaction_score หรือไม่
+                $checkColumn = $this->conn->query("SHOW COLUMNS FROM `$table` LIKE 'satisfaction_score'")->fetch();
+                
+                if (!$checkColumn) {
+                    // เพิ่มคอลัมน์ satisfaction_score
+                    $sql1 = "ALTER TABLE `$table` 
+                             ADD COLUMN `satisfaction_score` INT NULL CHECK (`satisfaction_score` BETWEEN 1 AND 5)";
+                    $this->conn->exec($sql1);
+                    $updated[] = "$table: Added satisfaction_score";
+                }
+                
+                // ตรวจสอบว่ามีคอลัมน์ satisfaction_feedback หรือไม่
+                $checkColumn2 = $this->conn->query("SHOW COLUMNS FROM `$table` LIKE 'satisfaction_feedback'")->fetch();
+                
+                if (!$checkColumn2) {
+                    // เพิ่มคอลัมน์ satisfaction_feedback
+                    $sql2 = "ALTER TABLE `$table` 
+                             ADD COLUMN `satisfaction_feedback` TEXT NULL";
+                    $this->conn->exec($sql2);
+                    $updated[] = "$table: Added satisfaction_feedback";
+                }
+            }
+            
+            if (empty($updated)) {
+                return ['success' => true, 'message' => 'All satisfaction columns already exist'];
+            }
+            
+            return ['success' => true, 'message' => 'Columns added successfully', 'details' => $updated];
+        } catch(PDOException $e) {
+            return ['success' => false, 'message' => $e->getMessage()];
+        }
     }
 }

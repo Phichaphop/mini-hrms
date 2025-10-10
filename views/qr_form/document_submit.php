@@ -503,7 +503,7 @@
                             $icons = ['👤', '👥'];
                             $i = 0;
                             foreach ($types as $type):
-                                $isDefault = ($i === 0); // First one is default (Individual)
+                                $isDefault = ($i === 1); // First one is default (Individual)
                             ?>
                                 <div class="card-hover relative bg-white dark:bg-gray-700 rounded-xl p-5 shadow-md border-2 border-blue-100 dark:border-gray-600 hover:border-blue-300 <?php echo $isDefault ? 'card-selected' : ''; ?>"
                                     onclick="selectCard(this, 'service_type_id', <?php echo $type['type_id']; ?>)">

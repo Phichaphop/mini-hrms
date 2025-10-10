@@ -1,6 +1,6 @@
 <?php
 // /views/employee/requests/leave.php
-// Leave Request Form - COMPLETE VERSION with Multilingual Support
+// Leave Request Form - FIXED VERSION
 
 require_once __DIR__ . '/../../../config/db_config.php';
 require_once __DIR__ . '/../../../db/Database.php';
@@ -36,12 +36,12 @@ if (!empty($currentUser['department_id'])) {
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        $leaveType = $_POST['leave_type'] ?? '';
+        $leaveTypeId = $_POST['leave_type_id'] ?? ''; // ✅ แก้เป็น leave_type_id
         $startDate = $_POST['start_date'] ?? '';
         $endDate = $_POST['end_date'] ?? '';
         $reason = trim($_POST['reason'] ?? '');
         
-        if (empty($leaveType) || empty($startDate) || empty($endDate)) {
+        if (empty($leaveTypeId) || empty($startDate) || empty($endDate)) {
             throw new Exception('Please fill in all required fields');
         }
         
@@ -55,10 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception('End date must be after or equal to start date');
         }
         
-        $sql = "INSERT INTO leave_requests (employee_id, leave_type, start_date, end_date, total_days, reason, status, created_at) 
+        // ✅ แก้ SQL Query - ใช้ leave_type_id
+        $sql = "INSERT INTO leave_requests (employee_id, leave_type_id, start_date, end_date, total_days, reason, status, created_at) 
                 VALUES (?, ?, ?, ?, ?, ?, 'New', NOW())";
         
-        $db->query($sql, [$_SESSION['user_id'], $leaveType, $startDate, $endDate, $totalDays, $reason]);
+        $db->query($sql, [$_SESSION['user_id'], $leaveTypeId, $startDate, $endDate, $totalDays, $reason]);
         
         $message = 'Leave request submitted successfully!';
         $messageType = 'success';
@@ -172,11 +173,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </h2>
             <div class="space-y-4">
                 <div>
-                    <label for="leave_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label for="leave_type_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Leave Type <span class="text-red-500">*</span>
                     </label>
-                    <select id="leave_type" 
-                            name="leave_type" 
+                    <select id="leave_type_id" 
+                            name="leave_type_id" 
                             required 
                             class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                         <?php echo getLeaveTypeOptions($db); ?>
